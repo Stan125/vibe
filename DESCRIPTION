@@ -1,0 +1,21 @@
+Package: vibe
+Type: Package
+Title: Variable Importance Beyond Linear Models
+Version: 0.5
+Authors@R: c(person("Stanislaus", "Stadlmann", email = "stadlmann@uni-goettingen.de", role = c("cre", "aut"), comment = c(ORCID = "0000-0001-6542-6342")))
+Maintainer: Stanislaus Stadlmann <stadlmann@uni-goettingen.de>
+Depends: 
+        R (>= 3.3.0)
+Imports:
+        stats, 
+        gamlss (>= 5.2-0),
+        ggplot2 (>= 3.3.2),
+        pbmcapply (>= 1.5.0),
+        gtools (>= 3.8.2)
+Description: Functions for calculating variable importance metrics for glm, gam and gamlss classes.
+License: GPL-3
+Encoding: UTF-8
+URL: https://github.com/Stan125/vibe
+BugReports: https://github.com/Stan125/vibe/issues
+LazyData: true
+RoxygenNote: 7.1.1
