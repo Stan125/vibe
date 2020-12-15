@@ -8,7 +8,7 @@
 #' @importFrom parallel mclapply
 pcapply <- function(X, FUN, ncores, progress = TRUE) {
   # Coerce to list where each element is one row
-  li <- unname(as.list(as.data.frame(t(x))))
+  li <- unname(as.list(as.data.frame(t(X))))
 
   # Apply function
   if (progress)

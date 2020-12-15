@@ -11,7 +11,8 @@ Imports:
         gamlss (>= 5.2-0),
         ggplot2 (>= 3.3.2),
         pbmcapply (>= 1.5.0),
-        gtools (>= 3.8.2)
+        gtools (>= 3.8.2),
+        Rcpp
 Description: Functions for calculating variable importance metrics for glm, gam and gamlss classes.
 License: GPL-3
 Encoding: UTF-8
@@ -19,3 +20,5 @@ URL: https://github.com/Stan125/vibe
 BugReports: https://github.com/Stan125/vibe/issues
 LazyData: true
 RoxygenNote: 7.1.1
+LinkingTo: Rcpp
+SystemRequirements: C++11

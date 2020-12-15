@@ -3,7 +3,7 @@
     "path": "~/GitHub/vibe/R/gof.R",
     "project_path": "R/gof.R",
     "type": "r_source",
-    "hash": "1723634365",
+    "hash": "4216723653",
     "contents": "",
     "dirty": false,
     "created": 1607643274735.0,
@@ -11,15 +11,15 @@
     "relative_order": 4,
     "properties": {
         "tempName": "Untitled2",
-        "cursorPosition": "2,41",
+        "cursorPosition": "3,0",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1607661344,
+    "lastKnownWriteTime": 1607993809,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1607661344702,
+    "last_content_update": 1607993809542,
     "read_only": false,
     "read_only_alternatives": []
 }
