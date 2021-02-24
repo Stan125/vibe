@@ -9,3 +9,7 @@
 #' @importFrom Rcpp sourceCpp
 #' @name vibe
 NULL
+
+#' @export
+vibe <- function(x, ...)
+  UseMethod("vibe", x)

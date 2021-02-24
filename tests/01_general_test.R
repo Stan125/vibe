@@ -3,19 +3,20 @@
 ## Libraries
 library("vibe")
 library("testthat")
-library("titanic")
 
 ## Remove everything
 rm(list = ls())
 
 ## Data
-titanic <- titanic::titanic_train
-titanic$Pclass <- as.factor(titanic$Pclass)
-titanic$Sex <- as.numeric(as.factor(titanic$Sex))
+india$csex <- as.numeric(india$csex)
+india$ctwin <- as.numeric(india$ctwin)
 ### --- Fitting the models --- ###
 
 ## GLM
-glm_bin <- glm(formula = Survived ~ Age + Sex + SibSp + Fare + Parch,
-               data = titanic, family = "binomial")
+glm_bin <- glm(formula =
+                 stunting ~ cage + csex + breastfeeding + ctwin + mage + mbmi,
+               data = india)
 
 ### --- Trying vibe --- ###
+vibe::vibe(glm_bin, metric = "hp", gofmetric = "R2e", progress = FALSE)
+vibe::vibe(glm_bin, metric = "relweight", gofmetric = "R2e")

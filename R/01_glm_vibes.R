@@ -1,5 +1,6 @@
 #' @importFrom stats model.frame
 #' @importFrom stats family
+#' @export
 
 vibe.glm <- function(object,
                      metric = "hp",
@@ -30,7 +31,7 @@ vibe.glm <- function(object,
 
     # Fit models (empty model first) and get goodness of fit
     m0 <- glm(depvar ~ 1, family = fam)
-    gofs <- pcapply(combins, ncores = ncores, FUN = function(x) {
+    gofs <- pcapply(combins, ncores = ncores, progress = progress, FUN = function(x) {
       m <- glm(depvar ~ ., family = fam,
                data = expl_df[, x, drop = FALSE])
       res <- gof(m, gofmetric = gofmetric, m0 = m0)
@@ -49,11 +50,16 @@ vibe.glm <- function(object,
     # Do hierarchical partitioning
     gof_res <- part(gof_list)
 
-    return(gof_res)
+    # Return hierpart
+    return(gof_res$results[, c("var", "indep_effects", "indep_perc")])
   } else if (metric == "relweight") {
 
+    # If anything different than r2e don't do it
+    if (gofmetric != "R2e")
+      stop("Currently only metric 'R2e' implemented")
+
     # mingle with X
-    X <- apply(base_df, 2, scale)
+    X <- apply(expl_df, 2, scale)
 
     # Get orthogonal variables
     svdX <- svd(X)
@@ -66,65 +72,25 @@ vibe.glm <- function(object,
     Lambda <- solve(t(Z) %*% Z) %*% t(Z) %*% X
 
     # Get unstandardized coefficients
-    glmY <- glm(depvar ~ Z, family = fam)
-    coefs <- coef(glmY)[2:(ncol(X) + 1)]
+    mfull <- glm(depvar ~ Z, family = fam)
+    coefs <- coef(mfull)[2:(ncol(X) + 1)]
 
     # Get S
-    s <- sd(predict(glmY))
+    s <- sd(predict(mfull))
 
-    # Get R2o
-    loglik_empty <- c(logLik(gamlss(Y ~ 1)))
-    loglik_full <- c(logLik(glmY))
-    R2e <- 1 - (loglik_full / loglik_empty)^((- 2 / glmY$N) * loglik_empty)
+    # Get gof (currently only R2e possible)
+    m0 <- glm(depvar ~ 1, family = fam)
+    gofmod <- gof(mfull, gofmetric = gofmetric, m0 = m0)
 
     # Weights
-    betaM_new <- coefs * sqrt(R2e) / s
+    betaM_new <- coefs * sqrt(gofmod) / s
     eps_new <- Lambda^2 %*% betaM_new^2
     eps_perc <- c(eps_new / sum(eps_new))
 
-    ### Try the same with poisson regression ###
-    hp_res_lm <- ghp(depname = "mage",
-                     data = india,
-                     gof = "r.squared",
-                     method = "lm")
-    hp_res_pois <- ghp(depname = "mage",
-                       data = india,
-                       gof = "R2e",
-                       method = "gamlss",
-                       family = "PO")
-
-    ## Now try to recreate using relative weights ##
-    Y <- as.matrix(india$mage)
-    X <- as.matrix(india[, !colnames(india) %in% "mage"])
-
-    # mingle with X
-    X <- apply(X, 2, scale)
-
-    # Get orthogonal variables
-    svdX <- svd(X)
-    Z <- svdX$u %*% t(svdX$v)
-
-    # Standardize Z
-    Z <- apply(Z, 2, scale)
-
-    # Get coefficients of X/Z relation
-    Lambda <- solve(t(Z) %*% Z) %*% t(Z) %*% X
-
-    # Get unstandardized coefficients
-    glmY <- gamlss(Y ~ Z, family = "PO")
-    coefs <- coef(glmY)[2:(ncol(X) + 1)]
-
-    # Get S
-    s <- sd(predict(glmY))
-
-    # Get R2o
-    loglik_empty <- c(logLik(gamlss(Y ~ 1, family = "PO")))
-    loglik_full <- c(logLik(glmY))
-    R2e <- 1 - (loglik_full / loglik_empty)^((- 2 / glmY$N) * loglik_empty)
-
-    # Weights
-    betaM_new <- coefs * sqrt(R2e) / s
-    eps_new <- Lambda^2 %*% betaM_new^2
-    eps_perc <- c(eps_new / sum(eps_new))
+    # Return
+    ret_df <- data.frame(var = colnames(expl_df),
+                         indep_effects = eps_new,
+                         indep_perc = eps_perc)
+    return(ret_df)
   }
 }
