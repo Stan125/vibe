@@ -19,15 +19,11 @@ vibe.glm <- function(object,
 
   if (metric == "hp") {
 
-    # Get all combinations
-    combins <- acc(k = ncol(base_df) - 1)$combs
+    ## Obtain model ids
+    model_ids <- mids(ncol(expl_df))
 
-    # Name models
-    model_ids <- apply(combins, MARGIN = 1, FUN = function(x)
-      return(as.character(x[x > 0])))
-    model_ids <- sapply(model_ids, FUN = function(x)
-      return(do.call(paste0, as.list(c("x", x)))))
-    model_ids <- c("x0", model_ids)
+    ## Fit models
+
 
     # Fit models (empty model first) and get goodness of fit
     m0 <- glm(depvar ~ 1, family = fam)

@@ -34,9 +34,26 @@ acc <- function(k) {
 
 #' Internal function: Calculate number of combinations
 #'
-#' Used for \code{\link{mfit}}.
-#'
 #'@keywords internal
 
 n_combs <- function(n, r)
   return(factorial(n) / (factorial(n - r) * factorial(r)))
+
+#' Obtain model ids given a number of covariates
+#'
+#' @keywords internal
+mids <- function(ncov) {
+
+  # Get all combinations
+  combins <- acc(k = ncov)$combs
+
+  # Name models
+  model_ids <- apply(combins, MARGIN = 1, FUN = function(x)
+    return(as.character(x[x > 0])))
+  model_ids <- sapply(model_ids, FUN = function(x)
+    return(do.call(paste0, as.list(c("x", x)))))
+  model_ids <- c("x0", model_ids)
+
+  # Return
+  return(model_ids)
+}

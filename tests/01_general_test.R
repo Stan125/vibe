@@ -8,6 +8,7 @@ library("testthat")
 rm(list = ls())
 
 ## Data
+india <- vibe::india
 india$csex <- as.numeric(india$csex)
 india$ctwin <- as.numeric(india$ctwin)
 ### --- Fitting the models --- ###
