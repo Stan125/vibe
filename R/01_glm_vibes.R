@@ -40,13 +40,18 @@ vibe.glm <- function(object,
                      model_ids = model_ids,
                      expl_names = colnames(base_df[, -c(1)]),
                      npar = 1,
-                     gof = gofmetric)
+                     gof = gofmetric,
+                     metric = metric)
 
     # Do hierarchical partitioning
     gof_res <- part(gof_list)
 
-    # Return hierpart
-    return(gof_res$results[, c("var", "indep_effects", "indep_perc")])
+    # Summarise into nice format
+    result <- make_vibe(gof_res)
+
+    # Return
+    return(result)
+
   } else if (metric == "relweight") {
 
     # If anything different than r2e don't do it

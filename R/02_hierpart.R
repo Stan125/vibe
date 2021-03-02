@@ -34,7 +34,6 @@ part <- function(gofs_list) {
   part <- list(results = results, npar = gofs_list$npar,
                method = gofs_list$method, gof = gofs_list$gof,
                joint_results = joint_res)
-  class(part) <- "part"
 
   # Return the class object
   return(part)
