@@ -17,23 +17,22 @@ vibe.glm <- function(object,
   # Obtain family
   fam <- family(object)
 
+  # Model Class - MC with added EE since it sounds cool
+  mcee <- supported_classes[supported_classes %in% class(glm_bin)]
+
   if (metric == "hp") {
 
     ## Obtain model ids
     model_ids <- mids(ncol(expl_df))
 
-    ## Fit models
-
-
-    # Fit models (empty model first) and get goodness of fit
-    m0 <- glm(depvar ~ 1, family = fam)
-    gofs <- pcapply(combins, ncores = ncores, progress = progress, FUN = function(x) {
-      m <- glm(depvar ~ ., family = fam,
-               data = expl_df[, x, drop = FALSE])
-      res <- gof(m, gofmetric = gofmetric, m0 = m0)
-      return(res)
-    })
-    gofs <- c(gof(m0, m0 = m0), gofs)
+    ## Fit models and get goodnesses of fit
+    gofs <- fit_and_gof(depvar = depvar,
+                        expl_df = expl_df,
+                        fam = fam,
+                        ncores = ncores,
+                        progress = progress,
+                        gofmetric = gofmetric,
+                        class = mcee)
 
     # Name vector with ID's
     names(gofs) <- model_ids

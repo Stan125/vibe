@@ -57,3 +57,25 @@ mids <- function(ncov) {
   # Return
   return(model_ids)
 }
+
+#' Fit all possible submodels and obtain goodnesses of fit
+#'
+#' @keywords internal
+fit_and_gof <- function(depvar, expl_df, fam, ncores, progress, gofmetric, class) {
+
+  # Get all model combinations
+  combins <- acc(k = ncol(expl_df))$combs
+
+  if (class == "glm") {
+    # Fit models (empty model first) and get goodness of fit
+    m0 <- glm(depvar ~ 1, family = fam)
+    gofs <- pcapply(combins, ncores = ncores, progress = progress, FUN = function(x) {
+      m <- glm(depvar ~ ., family = fam,
+               data = expl_df[, x, drop = FALSE])
+      res <- gof(m, gofmetric = gofmetric, m0 = m0)
+      return(res)
+    })
+    gofs <- c(gof(m0, m0 = m0), gofs)
+    return(gofs)
+  }
+}
