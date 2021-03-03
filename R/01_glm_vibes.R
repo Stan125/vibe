@@ -12,6 +12,7 @@ vibe.glm <- function(object,
   # Obtain data
   base_df <- model.frame(object)
   depvar <- base_df[, 1]
+  depvar_name <- names(base_df)[1]
   expl_df <- base_df[, -c(1)]
 
   # Obtain family
@@ -46,8 +47,8 @@ vibe.glm <- function(object,
     # Do hierarchical partitioning
     gof_res <- part(gof_list)
 
-    # Summarise into nice format
-    result <- make_vibe(gof_res)
+    # Summarize into nice format
+    result <- make_vibe(gof_res, depvar_name, )
 
     # Return
     return(result)
