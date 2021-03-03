@@ -35,5 +35,6 @@ print.vibe <- function(vibe_object) {
 #'
 #' @export
 summary.vibe <- function(vibe_object) {
-  ""
+  cat("Variable Importance Results:\n")
+  ...
 }
