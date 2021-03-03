@@ -4,7 +4,7 @@
 \alias{make_vibe}
 \title{Coerce results from algorithms into vibes object}
 \usage{
-make_vibe(results, metric, class)
+make_vibe(results, metric, depvar_name, class)
 }
 \description{
 Coerce results from algorithms into vibes object

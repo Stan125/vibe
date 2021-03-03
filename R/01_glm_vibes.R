@@ -48,7 +48,10 @@ vibe.glm <- function(object,
     gof_res <- part(gof_list)
 
     # Summarize into nice format
-    result <- make_vibe(gof_res, depvar_name, )
+    result <- make_vibe(results = gof_res,
+                        depvar_name = depvar_name,
+                        metric = metric,
+                        class = mcee)
 
     # Return
     return(result)
