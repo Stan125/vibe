@@ -35,6 +35,19 @@ print.vibe <- function(vibe_object) {
 #'
 #' @export
 summary.vibe <- function(vibe_object) {
+
+  # Basic info
   cat("Variable Importance Results:\n")
-  ...
+  str <- paste0(
+    "Metric: ", vibe_object$metric, "\n",
+    "Model class: ", vibe_object$class, "\n",
+    "Dep. Variable: ", vibe_object$depvar_name, "\n",
+    "Goodness of fit: ", vibe_object$gof, "\n",
+    "Number of Parameters modeled:", vibe_object$npar, "\n"
+  )
+  cat(str)
+
+  # Results table
+  cat("Independent contributions:\n")
+  print(as.data.frame(vibe_object$results))
 }
