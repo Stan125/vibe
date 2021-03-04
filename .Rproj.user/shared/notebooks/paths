@@ -7,6 +7,7 @@
 /Users/stani/GitHub/vibe/R/01_glm_vibes.R="E8BD4292"
 /Users/stani/GitHub/vibe/R/01_gof.R="E3CFE4C9"
 /Users/stani/GitHub/vibe/R/02_hp_helpers.R="9480215E"
+/Users/stani/GitHub/vibe/R/02_relweights.R="6D20BF45"
 /Users/stani/GitHub/vibe/R/03_output.R="B30B2C93"
 /Users/stani/GitHub/vibe/R/04_plotting.R="FE8BE132"
 /Users/stani/GitHub/vibe/R/89_general_helpers.R="8DB56DAA"
@@ -15,4 +16,3 @@
 /Users/stani/GitHub/vibe/src/.gitignore="723AB9F2"
 /Users/stani/GitHub/vibe/src/RcppExports.cpp="7BC60E2E"
 /Users/stani/GitHub/vibe/src/perm_cpp.cpp="E569C2D3"
-/Users/stani/GitHub/vibe/tests/01_general_test.R="852AD9CF"
