@@ -19,7 +19,7 @@ vibe.glm <- function(object,
   fam <- family(object)
 
   # Model Class - MC with added EE since it sounds cool
-  mcee <- supported_classes[supported_classes %in% class(glm_bin)]
+  mcee <- supported_classes[supported_classes %in% class(object)]
 
   if (metric == "hp") {
 

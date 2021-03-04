@@ -20,4 +20,4 @@ glm_bin <- glm(formula =
 
 ### --- Trying vibe --- ###
 vibe::vibe(glm_bin, metric = "hp", gofmetric = "R2e", progress = FALSE)
-vibe::vibe(glm_bin, metric = "relweight", gofmetric = "R2e")
+#vibe::vibe(glm_bin, metric = "relweight", gofmetric = "R2e")
