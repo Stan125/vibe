@@ -24,3 +24,27 @@ pcapply <- function(X, FUN, ncores, progress = TRUE) {
   # Return
   return(output)
 }
+
+#' Error handlers
+#'
+#' @keywords internal
+error_handling <- function(object = NULL,
+                           metric = NULL,
+                           gofmetric = NULL,
+                           progress = NULL) {
+
+  # Object
+  if (!is.null(object))
+    stopifnot(any(class(object) %in% supported_classes))
+
+  # Metric
+  if (!is.null(metric))
+    stopifnot(metric %in% c("relweights", "hp"))
+
+  # gofmetric
+  # stop if not in any of the supported metrics
+
+  # Progress
+  if (!is.null(progress))
+    stopifnot(is.logical(progress))
+}

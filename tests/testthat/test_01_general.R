@@ -1,23 +1,24 @@
-##### This script tests for the correct use of ghp #####
+# ---- This script tests for the correct use of ghp ----
 
-## Libraries
+# ---- Libraries ----
 library("vibe")
 library("testthat")
 
-## Remove everything
+# Remove everything
 rm(list = ls())
 
-## Data
+# Data
 india <- vibe::india
 india$csex <- as.numeric(india$csex)
 india$ctwin <- as.numeric(india$ctwin)
-### --- Fitting the models --- ###
 
-## GLM
+# ---- Fitting the models ----
+
+# GLM
 glm_bin <- glm(formula =
                  stunting ~ cage + csex + breastfeeding + ctwin + mage + mbmi,
                data = india)
 
-### --- Trying vibe --- ###
+# ---- Calculating variable importance ----
 vibe::vibe(glm_bin, metric = "hp", gofmetric = "R2e", progress = FALSE)
-#vibe::vibe(glm_bin, metric = "relweight", gofmetric = "R2e")
+vibe::vibe(glm_bin, metric = "relweight", gofmetric = "R2e")

@@ -2,6 +2,8 @@
 #'
 #' @keywords internal
 make_vibe <- function(results, metric, depvar_name, class) {
+
+  # Create object for hierarchical partitioning
   if (metric == "hp") {
     vibing_list <- list(
       metric = metric,
@@ -13,6 +15,19 @@ make_vibe <- function(results, metric, depvar_name, class) {
                                     "indep_effects", "indep_perc")]
     )
   }
+
+  # Create object for relative weights
+  if (metric == "relweights") {
+    vibing_list <- list(
+      metric = metric,
+      depvar_name = depvar_name,
+      npar = 1,
+      class = class,
+      gof = "R2e",
+      results = results
+    )
+  }
+
   class(vibing_list) <- "vibe"
   return(vibing_list)
 }

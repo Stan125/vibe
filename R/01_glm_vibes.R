@@ -9,6 +9,12 @@ vibe.glm <- function(object,
                      progress = TRUE,
                      ...) {
 
+  # Defensive Programming - is everything supplied the way it should be?
+  error_handling(object = object,
+                 metric = metric,
+                 gofmetric = gofmetric,
+                 progress = progress)
+
   # Obtain data
   base_df <- model.frame(object)
   depvar <- base_df[, 1]
@@ -56,7 +62,7 @@ vibe.glm <- function(object,
     # Return
     return(result)
 
-  } else if (metric == "relweight") {
+  } else if (metric == "relweights") {
 
     # If unnumeric variables don't do it
     if (any(!sapply(expl_df, is.numeric)))
@@ -67,44 +73,19 @@ vibe.glm <- function(object,
       stop("Currently only metric 'R2e' implemented")
 
     # Relative Weights
-    result <- rel_weights(expl_df = expl_df,
-                          fam = fam,
-                          depvar = depvar,
-                          )
+    relweight_res <- rel_weights(expl_df = expl_df,
+                                 fam = fam,
+                                 depvar = depvar,
+                                 gofmetric = gofmetric,
+                                 class = mcee)
 
-    # # mingle with X
-    # X <- apply(expl_df, 2, scale)
-    #
-    # # Get orthogonal variables
-    # svdX <- svd(X)
-    # Z <- svdX$u %*% t(svdX$v)
-    #
-    # # Standardize Z
-    # Z <- apply(Z, 2, scale)
-    #
-    # # Get coefficients of X/Z relation
-    # Lambda <- solve(t(Z) %*% Z) %*% t(Z) %*% X
-    #
-    # # Get unstandardized coefficients
-    # mfull <- glm(depvar ~ Z, family = fam)
-    # coefs <- coef(mfull)[2:(ncol(X) + 1)]
-    #
-    # # Get S
-    # s <- sd(predict(mfull))
-    #
-    # # Get gof (currently only R2e possible)
-    # m0 <- glm(depvar ~ 1, family = fam)
-    # gofmod <- gof(mfull, gofmetric = gofmetric, m0 = m0)
-    #
-    # # Weights
-    # betaM_new <- coefs * sqrt(gofmod) / s
-    # eps_new <- Lambda^2 %*% betaM_new^2
-    # eps_perc <- c(eps_new / sum(eps_new))
-    #
-    # # Return
-    # ret_df <- data.frame(var = colnames(expl_df),
-    #                      indep_effects = eps_new,
-    #                      indep_perc = eps_perc)
-    # return(ret_df)
+    # Summarize into nice format
+    result <- make_vibe(results = relweight_res,
+                        depvar_name = depvar_name,
+                        metric = metric,
+                        class = mcee)
+
+    # Return
+    return(result)
   }
 }
