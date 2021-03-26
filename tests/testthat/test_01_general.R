@@ -9,16 +9,14 @@ rm(list = ls())
 
 # Data
 india <- vibe::india
-india$csex <- as.numeric(india$csex)
-india$ctwin <- as.numeric(india$ctwin)
 
 # ---- Fitting the models ----
 
 # GLM
-glm_bin <- glm(formula =
-                 stunting ~ cage + csex + breastfeeding + ctwin + mage + mbmi,
-               data = india)
+glm_bin <- glm(formula = stunting ~ ., data = india)
 
 # ---- Calculating variable importance ----
-vibe::vibe(glm_bin, metric = "hp", gofmetric = "R2e", progress = FALSE)
-vibe::vibe(glm_bin, metric = "relweight", gofmetric = "R2e")
+hp <- vibe::vibe(glm_bin, metric = "hp", gofmetric = "R2e", progress = TRUE)
+rw <- vibe::vibe(glm_bin, metric = "relweights", gofmetric = "R2e")
+summary(hp)
+summary(rw)

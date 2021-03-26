@@ -64,10 +64,6 @@ vibe.glm <- function(object,
 
   } else if (metric == "relweights") {
 
-    # If unnumeric variables don't do it
-    if (any(!sapply(expl_df, is.numeric)))
-      stop("Relative Weights cannot currently deal with non-numeric vars")
-
     # If anything different than r2e don't do it
     if (gofmetric != "R2e")
       stop("Currently only metric 'R2e' implemented")
