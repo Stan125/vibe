@@ -3,6 +3,7 @@
 # ---- Libraries ----
 library("vibe")
 library("testthat")
+library("mgcv")
 
 # Remove everything
 rm(list = ls())
@@ -15,7 +16,13 @@ india <- vibe::india
 # GLM
 glm_bin <- glm(formula = stunting ~ ., data = india)
 
-# ---- Calculating variable importance ----
+# GAM
+gam_ocat <-
+
+# ---- Calculating variable importance - GLM ----
 hp <- vibe(glm_bin, metric = "hp", gofmetric = "R2e", progress = FALSE)
 rw <- vibe(glm_bin, metric = "relweights", gofmetric = "R2e")
+
+# ---- Calculating variable importance - GAM ----
+
 

@@ -16,6 +16,8 @@ Imports:
         combinat (>= 0.0-8),
         tibble (>= 3.1.0),
         fastDummies (>= 1.6.3),
+        mgcv (>= 1.8-33),
+        gamlss (>= 5.2-0),
         Rcpp
 Description: Functions for calculating variable importance metrics for glm, gam and gamlss classes.
 License: GPL-3
