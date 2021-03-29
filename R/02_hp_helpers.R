@@ -61,6 +61,7 @@ mids <- function(ncov) {
 #' Fit all possible submodels and obtain goodnesses of fit
 #'
 #' @keywords internal
+#' @importFrom stats glm
 fit_and_gof <- function(depvar, expl_df, fam, ncores, progress, gofmetric, class) {
 
   # Get all model combinations

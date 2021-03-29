@@ -1,4 +1,5 @@
 ^.*\.Rproj$
+^data-raw/.*$
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^appveyor\.yml$

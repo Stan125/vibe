@@ -34,8 +34,10 @@ make_vibe <- function(results, metric, depvar_name, class) {
 
 #' Print function for 'vibe' objects
 #'
+#' @param x Any object with class 'vibe'
+#' @param ... Additional arguments
 #' @export
-print.vibe <- function(vibe_object) {
+print.vibe <- function(x, ...) {
   string <- paste0(
     "A 'vibe' object with the following properties:\n",
     "Metric: ", vibe_object$metric, "\n",
@@ -48,8 +50,10 @@ print.vibe <- function(vibe_object) {
 
 #' Summary function for 'vibe' objects
 #'
+#' @param object Any object with class 'vibe'
+#' @param ... Additional arguments
 #' @export
-summary.vibe <- function(vibe_object) {
+summary.vibe <- function(object, ...) {
 
   # Basic info
   cat("Variable Importance Results:\n")

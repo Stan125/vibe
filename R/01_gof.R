@@ -1,8 +1,9 @@
 #' @importFrom stats logLik
 #' @export
 #' @method gof default
+#' @importFrom methods is
 
-gof.default <- function(object, gofmetric = "R2e", m0 = NULL) {
+gof.default <- function(object, gofmetric = "R2e", m0 = NULL, ...) {
   if (!is(object, c("glm", "gam", "gamlss")))
   if (gofmetric == "R2e" & is.null(m0))
     stop("Empty model needs to be provided")
@@ -15,6 +16,9 @@ gof.default <- function(object, gofmetric = "R2e", m0 = NULL) {
   }
 }
 
+#' Function to obtain goodness-of-fit from regression object
+#' @param object Regression object. One of \code{vibe:::supported_classes}.
+#' @param ... Additional arguments
 #' @export
-gof <- function(x, ...)
-  UseMethod("gof", x)
+gof <- function(object, ...)
+  UseMethod("gof", object)

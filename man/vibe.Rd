@@ -4,10 +4,14 @@
 \name{vibe}
 \alias{vibe}
 \title{vibe: Variable Importance BEyond linear models}
+\usage{
+vibe(object, ...)
+}
+\arguments{
+\item{object}{An object included in \code{vibe:::supported_classes}}
+
+\item{...}{Additional arguments passed on to methods}
+}
 \description{
 This is a very cool package. So hot right now.
 }
-\section{Functions}{
-
-}
-

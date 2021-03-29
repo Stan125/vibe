@@ -2,7 +2,7 @@
 #'
 #' @keywords internal
 #' @importFrom fastDummies dummy_columns
-#' @importFrom stats aggregate
+#' @importFrom stats aggregate glm coef sd predict
 rel_weights <- function(expl_df, depvar, fam, class, gofmetric) {
 
   # What if there's categorical variables?

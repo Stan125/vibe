@@ -4,7 +4,12 @@
 \alias{summary.vibe}
 \title{Summary function for 'vibe' objects}
 \usage{
-\method{summary}{vibe}(vibe_object)
+\method{summary}{vibe}(object, ...)
+}
+\arguments{
+\item{object}{Any object with class 'vibe'}
+
+\item{...}{Additional arguments}
 }
 \description{
 Summary function for 'vibe' objects

@@ -4,7 +4,12 @@
 \alias{print.vibe}
 \title{Print function for 'vibe' objects}
 \usage{
-\method{print}{vibe}(vibe_object)
+\method{print}{vibe}(x, ...)
+}
+\arguments{
+\item{x}{Any object with class 'vibe'}
+
+\item{...}{Additional arguments}
 }
 \description{
 Print function for 'vibe' objects

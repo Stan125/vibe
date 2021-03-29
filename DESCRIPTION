@@ -8,6 +8,7 @@ Depends:
         R (>= 3.5.0)
 Imports:
         stats, 
+        methods,
         gamlss (>= 5.2-0),
         ggplot2 (>= 3.3.2),
         pbmcapply (>= 1.5.0),
@@ -26,5 +27,6 @@ RoxygenNote: 7.1.1
 LinkingTo: Rcpp
 SystemRequirements: C++11
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    devtools (>= 2.3.2)
 Config/testthat/edition: 3

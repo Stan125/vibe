@@ -1,4 +1,5 @@
 /Users/stani/GitHub/distreg.vis/DESCRIPTION="3C42E169"
+/Users/stani/GitHub/vibe/.Rbuildignore="21D1D47B"
 /Users/stani/GitHub/vibe/.gitignore="21DCF34D"
 /Users/stani/GitHub/vibe/.travis.yml="644C8101"
 /Users/stani/GitHub/vibe/DESCRIPTION="48911B10"
@@ -16,4 +17,5 @@
 /Users/stani/GitHub/vibe/src/.gitignore="723AB9F2"
 /Users/stani/GitHub/vibe/src/RcppExports.cpp="7BC60E2E"
 /Users/stani/GitHub/vibe/src/perm_cpp.cpp="E569C2D3"
+/Users/stani/GitHub/vibe/tests/testthat/test_01_general.R="AC0D7E9D"
 /Users/stani/GitHub/vibe/tests/testthat/test_02_misspecification.R="5532533E"

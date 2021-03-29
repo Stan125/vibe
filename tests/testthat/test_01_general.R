@@ -16,7 +16,6 @@ india <- vibe::india
 glm_bin <- glm(formula = stunting ~ ., data = india)
 
 # ---- Calculating variable importance ----
-hp <- vibe::vibe(glm_bin, metric = "hp", gofmetric = "R2e", progress = TRUE)
-rw <- vibe::vibe(glm_bin, metric = "relweights", gofmetric = "R2e")
-summary(hp)
-summary(rw)
+hp <- vibe(glm_bin, metric = "hp", gofmetric = "R2e", progress = FALSE)
+rw <- vibe(glm_bin, metric = "relweights", gofmetric = "R2e")
+
