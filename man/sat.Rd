@@ -5,7 +5,7 @@
 \alias{sat}
 \title{Customer Satisfaction in North Macedonia}
 \format{
-An object of class \code{data.frame} with 453 rows and 17 columns.
+An object of class \code{data.frame} with 452 rows and 17 columns.
 }
 \usage{
 sat

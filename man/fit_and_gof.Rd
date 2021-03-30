@@ -4,7 +4,17 @@
 \alias{fit_and_gof}
 \title{Fit all possible submodels and obtain goodnesses of fit}
 \usage{
-fit_and_gof(depvar, expl_df, fam, ncores, progress, gofmetric, class)
+fit_and_gof(
+  depvar,
+  expl_df,
+  fam,
+  ncores,
+  progress,
+  gofmetric,
+  class,
+  depvar_name,
+  base_df
+)
 }
 \description{
 Fit all possible submodels and obtain goodnesses of fit

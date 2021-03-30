@@ -3,6 +3,7 @@
 #' @keywords internal
 #' @importFrom fastDummies dummy_columns
 #' @importFrom stats aggregate glm coef sd predict
+#' @importFrom mgcv gam
 rel_weights <- function(expl_df, depvar, fam, class, gofmetric) {
 
   # What if there's categorical variables?
@@ -41,6 +42,19 @@ rel_weights <- function(expl_df, depvar, fam, class, gofmetric) {
 
     # Get gof (currently only R2e possible)
     m0 <- glm(depvar ~ 1, family = fam)
+    gofmod <- gof(mfull, gofmetric = gofmetric, m0 = m0)
+  }
+
+  if (class == "gam") {
+    # Get unstandardized coefficients
+    mfull <- gam(depvar ~ Z, family = fam)
+    coefs <- coef(mfull)[2:(ncol(X) + 1)]
+
+    # Get S
+    s <- sd(predict(mfull))
+
+    # Get gof (currently only R2e possible)
+    m0 <- gam(depvar ~ 1, family = fam)
     gofmod <- gof(mfull, gofmetric = gofmetric, m0 = m0)
   }
 

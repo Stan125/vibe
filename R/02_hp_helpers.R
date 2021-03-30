@@ -62,17 +62,34 @@ mids <- function(ncov) {
 #'
 #' @keywords internal
 #' @importFrom stats glm
-fit_and_gof <- function(depvar, expl_df, fam, ncores, progress, gofmetric, class) {
+#' @importFrom mgcv gam
+fit_and_gof <- function(depvar, expl_df, fam, ncores, progress, gofmetric, class, depvar_name, base_df) {
 
   # Get all model combinations
   combins <- acc(k = ncol(expl_df))$combs
 
+  # GLM ----
   if (class == "glm") {
     # Fit models (empty model first) and get goodness of fit
     m0 <- glm(depvar ~ 1, family = fam)
     gofs <- pcapply(combins, ncores = ncores, progress = progress, FUN = function(x) {
       m <- glm(depvar ~ ., family = fam,
                data = expl_df[, x, drop = FALSE])
+      res <- gof(m, gofmetric = gofmetric, m0 = m0)
+      return(res)
+    })
+    gofs <- c(gof(m0, m0 = m0), gofs)
+    return(gofs)
+  }
+
+  # GAM ----
+  if (class == "gam") {
+    varnames <- names(expl_df)
+    # Fit models (empty model first) and get goodness of fit
+    m0 <- gam(depvar ~ 1, family = fam)
+    gofs <- pcapply(combins, ncores = ncores, progress = progress, FUN = function(x) {
+      f <- as.formula(paste(depvar_name, "~", paste(varnames[x], collapse = " + ")))
+      m <- gam(f, family = fam, data = base_df)
       res <- gof(m, gofmetric = gofmetric, m0 = m0)
       return(res)
     })

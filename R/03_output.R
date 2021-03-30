@@ -40,10 +40,10 @@ make_vibe <- function(results, metric, depvar_name, class) {
 print.vibe <- function(x, ...) {
   string <- paste0(
     "A 'vibe' object with the following properties:\n",
-    "Metric: ", vibe_object$metric, "\n",
-    "Model class: ", vibe_object$class, "\n",
-    "Dep. Variable: ", vibe_object$depvar_name, "\n",
-    "Goodness of fit: ", vibe_object$gof, ".\n"
+    "Metric: ", x$metric, "\n",
+    "Model class: ", x$class, "\n",
+    "Dep. Variable: ", x$depvar_name, "\n",
+    "Goodness of fit: ", x$gof, ".\n"
   )
   cat(string)
 }
@@ -58,15 +58,15 @@ summary.vibe <- function(object, ...) {
   # Basic info
   cat("Variable Importance Results:\n")
   str <- paste0(
-    "Metric: ", vibe_object$metric, "\n",
-    "Model class: ", vibe_object$class, "\n",
-    "Dep. Variable: ", vibe_object$depvar_name, "\n",
-    "Goodness of fit: ", vibe_object$gof, "\n",
-    "Number of Parameters modeled:", vibe_object$npar, "\n"
+    "Metric: ", object$metric, "\n",
+    "Model class: ", object$class, "\n",
+    "Dep. Variable: ", object$depvar_name, "\n",
+    "Goodness of fit: ", object$gof, "\n",
+    "Number of Parameters modeled:", object$npar, "\n"
   )
   cat(str)
 
   # Results table
   cat("Independent contributions:\n")
-  print(as.data.frame(vibe_object$results))
+  print(as.data.frame(object$results))
 }
