@@ -25,6 +25,35 @@ pcapply <- function(X, FUN, ncores, progress = TRUE) {
   return(output)
 }
 
+#' Class finder
+#'
+#' This function is just there to find the class of object and only give back one class...
+#' @keywords internal
+class_finder <- function(object) {
+  mcee <- supported_classes[supported_classes %in% class(object)]
+  if (any(mcee == "gam"))
+    mcee <- "gam"
+  if (any(mcee == "gamlss"))
+    mcee <- "gamlss"
+  return(mcee)
+}
+
+#' Number of modeled parameters determiner
+#'
+#' Determines the number of modeled parameters in gamlss models
+#' @keywords internal
+det_npar <- function(object) {
+  pars <- object$parameters
+  modeled_pars <- sapply(pars, FUN = function(x) {
+    if (ncol(object[[paste0(x, ".x")]]) > 1)
+      return(x)
+    else
+      return(NULL)
+  })
+  return(unlist(modeled_pars))
+}
+
+
 #' Error handlers
 #'
 #' @keywords internal

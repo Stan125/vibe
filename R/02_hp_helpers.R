@@ -63,7 +63,17 @@ mids <- function(ncov) {
 #' @keywords internal
 #' @importFrom stats glm
 #' @importFrom mgcv gam
-fit_and_gof <- function(depvar, expl_df, fam, ncores, progress, gofmetric, class, depvar_name, base_df) {
+fit_and_gof <- function(depvar,
+                        expl_df,
+                        fam,
+                        ncores,
+                        progress,
+                        gofmetric,
+                        class,
+                        depvar_name,
+                        base_df,
+                        param)
+{
 
   # Get all model combinations
   combins <- acc(k = ncol(expl_df))$combs
@@ -79,7 +89,8 @@ fit_and_gof <- function(depvar, expl_df, fam, ncores, progress, gofmetric, class
       return(res)
     })
     gofs <- c(gof(m0, m0 = m0), gofs)
-    return(gofs)
+    gofs_list <- list(mu = gofs)
+    return(gofs_list)
   }
 
   # GAM ----
@@ -94,6 +105,37 @@ fit_and_gof <- function(depvar, expl_df, fam, ncores, progress, gofmetric, class
       return(res)
     })
     gofs <- c(gof(m0, m0 = m0), gofs)
-    return(gofs)
+    gofs_list <- list(mu = gofs)
+    return(gofs_list)
+  }
+
+  # GAMLSS ----
+  if (class == "gamlss") {
+    if (!par %in% c("mu", "sigma"))
+      stop("Vibe currently only supports mu and sigma parameters")
+
+    m0 <- gamlss(depvar ~ 1, family = fam)
+      if (param == "mu") {
+        gofs <- pcapply(combins, ncores = ncores, progress = progress, FUN = function(x) {
+          f <- as.formula(paste(depvar_name, "~", paste(varnames[x], collapse = " + ")))
+          m <- gamlss(f, family = fam, data = base_df)
+          res <- gof(m, gofmetric = gofmetric, m0 = m0)
+          return(res)
+        })
+        gofs <- c(gof(m0, m0 = m0), gofs)
+        gofs_list <- list(mu = gofs)
+      } else if (param == "sigma") {
+        gofs <- pcapply(combins, ncores = ncores, progress = progress, FUN = function(x) {
+          f <- as.formula(paste("~", paste(varnames[x], collapse = " + ")))
+          m <- gamlss(formula = depvar ~ 1, sigma.formula = f, family = fam, data = base_df)
+          res <- gof(m, gofmetric = gofmetric, m0 = m0)
+          return(res)
+        })
+        gofs <- c(gof(m0, m0 = m0), gofs)
+        gofs_list <- list(sigma = gofs)
+      }
+      return(gofs_list)
+    }
+
   }
 }
