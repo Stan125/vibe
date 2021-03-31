@@ -72,7 +72,8 @@ fit_and_gof <- function(depvar,
                         class,
                         depvar_name,
                         base_df,
-                        param)
+                        param,
+                        object)
 {
 
   # Get all model combinations
@@ -89,8 +90,7 @@ fit_and_gof <- function(depvar,
       return(res)
     })
     gofs <- c(gof(m0, m0 = m0), gofs)
-    gofs_list <- list(mu = gofs)
-    return(gofs_list)
+    return(gofs)
   }
 
   # GAM ----
@@ -105,37 +105,40 @@ fit_and_gof <- function(depvar,
       return(res)
     })
     gofs <- c(gof(m0, m0 = m0), gofs)
-    gofs_list <- list(mu = gofs)
-    return(gofs_list)
+    return(gofs)
   }
 
   # GAMLSS ----
   if (class == "gamlss") {
-    if (!par %in% c("mu", "sigma"))
+    if (!param %in% c("mu", "sigma"))
       stop("Vibe currently only supports mu and sigma parameters")
 
-    m0 <- gamlss(depvar ~ 1, family = fam)
+    m0 <- gamlss(depvar ~ 1, family = fam, trace = FALSE)
+    varnames <- names(expl_df)
       if (param == "mu") {
+
         gofs <- pcapply(combins, ncores = ncores, progress = progress, FUN = function(x) {
           f <- as.formula(paste(depvar_name, "~", paste(varnames[x], collapse = " + ")))
-          m <- gamlss(f, family = fam, data = base_df)
+          m <- gamlss(f, family = fam, data = base_df, trace = FALSE)
           res <- gof(m, gofmetric = gofmetric, m0 = m0)
           return(res)
         })
         gofs <- c(gof(m0, m0 = m0), gofs)
-        gofs_list <- list(mu = gofs)
+
       } else if (param == "sigma") {
+
         gofs <- pcapply(combins, ncores = ncores, progress = progress, FUN = function(x) {
           f <- as.formula(paste("~", paste(varnames[x], collapse = " + ")))
-          m <- gamlss(formula = depvar ~ 1, sigma.formula = f, family = fam, data = base_df)
+          m <- gamlss(formula = depvar ~ 1, sigma.formula = f, family = fam[1], data = base_df,
+                      trace = FALSE)
           res <- gof(m, gofmetric = gofmetric, m0 = m0)
           return(res)
         })
         gofs <- c(gof(m0, m0 = m0), gofs)
-        gofs_list <- list(sigma = gofs)
+
       }
-      return(gofs_list)
+      return(gofs)
     }
 
-  }
 }
+

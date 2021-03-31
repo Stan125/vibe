@@ -31,7 +31,7 @@ pcapply <- function(X, FUN, ncores, progress = TRUE) {
 #' @keywords internal
 class_finder <- function(object) {
   mcee <- supported_classes[supported_classes %in% class(object)]
-  if (any(mcee == "gam"))
+  if (any(mcee == "gam") & !any(mcee == "gamlss"))
     mcee <- "gam"
   if (any(mcee == "gamlss"))
     mcee <- "gamlss"

@@ -13,7 +13,9 @@ fit_and_gof(
   gofmetric,
   class,
   depvar_name,
-  base_df
+  base_df,
+  param,
+  object
 )
 }
 \description{

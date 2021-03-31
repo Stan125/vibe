@@ -2,12 +2,12 @@
 #' @importFrom stats family
 #' @export
 
-vibe.gam <- function(object,
-                     metric = "hp",
-                     gofmetric = "R2e",
-                     ncores = 1,
-                     progress = TRUE,
-                     ...) {
+vibe.gamlss <- function(object,
+                        metric = "hp",
+                        gofmetric = "R2e",
+                        ncores = 1,
+                        progress = TRUE,
+                        ...) {
 
   # Defensive Programming - is everything supplied the way it should be?
   error_handling(object = object,
@@ -33,34 +33,53 @@ vibe.gam <- function(object,
     modeled_pars <- det_npar(object)
 
     ## Get gofs for each par
-    sapply(modeled_pars, FUN = function(par) {
+    gofs <- lapply(modeled_pars, FUN = function(par) {
       base_df_par <- model.frame(object, what = par)
-      expl_df <- base_df_par[-1, ]
-      ... continue here ...
+
+      if (par == "mu") {
+        expl_df_par <- base_df_par[, -1, drop = FALSE]
+      } else {
+        expl_df_par <- base_df_par
+      }
+
       ## Obtain model ids
-      model_ids <- mids(ncol(expl_df))
+      model_ids_par <- mids(ncol(expl_df_par))
+
+      ## Get gofs
+      gofs <- fit_and_gof(depvar = depvar,
+                          expl_df = expl_df_par,
+                          fam = fam,
+                          ncores = ncores,
+                          progress = progress,
+                          gofmetric = gofmetric,
+                          class = mcee,
+                          depvar_name = depvar_name,
+                          base_df = base_df_par,
+                          param = par)
+
+      # Name vector with ID's
+      names(gofs) <- model_ids_par
+
+      # Return gofs
+      return(gofs)
+
     })
 
+    # Get expl names
+    expl_names <- lapply(modeled_pars, FUN = function(par) {
+      base_df_par <- model.frame(object, what = par)
 
+      if (par == "mu") {
+        expl_df_par <- base_df_par[, -1, drop = FALSE]
+      } else {
+        expl_df_par <- base_df_par
+      }
+      return(colnames(expl_df_par))
+    })
 
-    ## Fit models and get goodnesses of fit
-    gofs <- fit_and_gof(depvar = depvar,
-                        expl_df = expl_df,
-                        fam = fam,
-                        ncores = ncores,
-                        progress = progress,
-                        gofmetric = gofmetric,
-                        class = mcee,
-                        depvar_name = depvar_name,
-                        base_df = base_df,
-                        modeled_pars = modeled_pars)
-
-    # Name vector with ID's
-    names(gofs) <- model_ids
-    gof_list <- list(gofs = list(mu = gofs),
-                     model_ids = model_ids,
-                     expl_names = colnames(base_df[, -c(1)]),
-                     npar = 1,
+    gof_list <- list(gofs = gofs,
+                     expl_names = expl_names,
+                     npar = length(modeled_pars),
                      gof = gofmetric,
                      metric = metric)
 

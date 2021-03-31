@@ -6,15 +6,16 @@
 part <- function(gofs_list) {
 
   # Partition for first param
-  res_mu <- part_core(gofs_list$gofs$mu, gofs_list$expl_names,
-                      gofs_list$model_ids)
+  res_mu <- part_core(gofs_vector = gofs_list$gofs$mu,
+                      expl_names = gofs_list$expl_names$mu,
+                      model_ids = names(gofs_list$gofs$mu))
   part_mu <- res_mu$main
   part_mu <- add_column(part_mu, param = "mu", .after = 1)
 
   # If available partition for second param
   if (gofs_list$npar == 2) {
-    res_sigma <- part_core(gofs_list$gofs$sigma, gofs_list$expl_names,
-                           gofs_list$model_ids)
+    res_sigma <- part_core(gofs_list$gofs$sigma, gofs_list$expl_names$sigma,
+                           names(gofs_list$gofs$sigma))
     part_sigma <- res_sigma$main
     part_sigma <- add_column(part_sigma, param = "sigma", .after = 1)
   }

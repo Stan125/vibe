@@ -52,3 +52,4 @@ summary(rw_gam)
 
 # ---- Calculating variable importance - GAMLSS ----
 hp_gamlss <- vibe(gamlss_beta_mu, metric = "hp", gofmetric = "R2e", progress = FALSE)
+hp_gamlss <- vibe(gamlss_beta_sig, metric = "hp", gofmetric = "R2e", progress = FALSE)

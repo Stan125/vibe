@@ -49,7 +49,7 @@ vibe.gam <- function(object,
     names(gofs) <- model_ids
     gof_list <- list(gofs = list(mu = gofs),
                      model_ids = model_ids,
-                     expl_names = colnames(base_df[, -c(1)]),
+                     expl_names = list(mu = colnames(expl_df)),
                      npar = 1,
                      gof = gofmetric,
                      metric = metric)
