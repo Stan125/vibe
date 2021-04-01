@@ -3,5 +3,5 @@
 
 #' Customer Satisfaction in North Macedonia
 #'
-#' \link{https://www.kaggle.com/vdimitrievska/patient-satisfaction-dataset}
+#' \url{https://www.kaggle.com/vdimitrievska/patient-satisfaction-dataset}
 "sat"

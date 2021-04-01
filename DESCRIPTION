@@ -17,7 +17,6 @@ Imports:
         tibble (>= 3.1.0),
         fastDummies (>= 1.6.3),
         mgcv (>= 1.8-33),
-        gamlss (>= 5.2-0),
         Rcpp
 Description: Functions for calculating variable importance metrics for glm, gam and gamlss classes.
 License: GPL-3
@@ -30,5 +29,6 @@ LinkingTo: Rcpp
 SystemRequirements: C++11
 Suggests: 
     testthat (>= 3.0.0),
-    devtools (>= 2.3.2)
+    devtools (>= 2.3.2),
+    nlme (>= 3.1-149)
 Config/testthat/edition: 3

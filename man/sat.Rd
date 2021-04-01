@@ -11,6 +11,6 @@ An object of class \code{data.frame} with 452 rows and 17 columns.
 sat
 }
 \description{
-\link{https://www.kaggle.com/vdimitrievska/patient-satisfaction-dataset}
+\url{https://www.kaggle.com/vdimitrievska/patient-satisfaction-dataset}
 }
 \keyword{datasets}

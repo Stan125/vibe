@@ -61,7 +61,7 @@ mids <- function(ncov) {
 #' Fit all possible submodels and obtain goodnesses of fit
 #'
 #' @keywords internal
-#' @importFrom stats glm
+#' @importFrom stats glm as.formula
 #' @importFrom mgcv gam
 fit_and_gof <- function(depvar,
                         expl_df,
