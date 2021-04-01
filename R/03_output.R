@@ -21,7 +21,7 @@ make_vibe <- function(results, metric, depvar_name, class) {
     vibing_list <- list(
       metric = metric,
       depvar_name = depvar_name,
-      npar = 1,
+      npar = length(unique(results$param)),
       class = class,
       gof = "R2e",
       results = results

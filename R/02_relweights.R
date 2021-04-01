@@ -4,7 +4,8 @@
 #' @importFrom fastDummies dummy_columns
 #' @importFrom stats aggregate glm coef sd predict
 #' @importFrom mgcv gam
-rel_weights <- function(expl_df, depvar, fam, class, gofmetric) {
+#' @importFrom gamlss gamlss
+rel_weights <- function(expl_df, depvar, fam, class, gofmetric, param = "mu") {
 
   # What if there's categorical variables?
   non_numeric_vars <- sapply(expl_df, FUN = function(x) return(!is.numeric(x)))
@@ -58,6 +59,33 @@ rel_weights <- function(expl_df, depvar, fam, class, gofmetric) {
     gofmod <- gof(mfull, gofmetric = gofmetric, m0 = m0)
   }
 
+  if (class == "gamlss") {
+    if (param == "mu") {
+      # Get unstandardized coefficients
+      mfull <- gamlss(depvar ~ Z, family = fam, trace = FALSE)
+      coefs <- coef(mfull)[2:(ncol(X) + 1)]
+
+      # Get S
+      s <- sd(predict(mfull))
+
+      # Get gof (currently only R2e possible)
+      m0 <- gamlss(depvar ~ 1, family = fam, trace = FALSE)
+      gofmod <- gof(mfull, gofmetric = gofmetric, m0 = m0)
+    } else if (param == "sigma") {
+
+      # Get unstandardized coefficients
+      mfull <- gamlss(depvar ~ 1, sigma.formula = ~ Z, family = fam, trace = FALSE)
+      coefs <- coef(mfull, what = "sigma")[2:(ncol(X) + 1)]
+
+      # Get S
+      s <- sd(predict(mfull, what = "sigma"))
+
+      # Get gof (currently only R2e possible)
+      m0 <- gamlss(depvar ~ 1, family = fam, trace = FALSE)
+      gofmod <- gof(mfull, gofmetric = gofmetric, m0 = m0)
+    }
+  }
+
   # Weights
   betaM_new <- coefs * sqrt(gofmod) / s
   eps_new <- Lambda^2 %*% betaM_new^2
@@ -75,6 +103,7 @@ rel_weights <- function(expl_df, depvar, fam, class, gofmetric) {
 
   # Return
   ret_df <- data.frame(var = colnames(expl_df),
+                       param = param,
                        indep_effects = eps_new,
                        indep_perc = eps_perc)
   return(ret_df)

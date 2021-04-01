@@ -16,7 +16,7 @@ sat <- subset(vibe::sat, select = -c(lab_services, time_waiting,
                                      checkup, waiting_room, hospital_room,
                                      drug_availability, aval_specialists,
                                      dr_communication))
-Gasoline <- Gasoline
+Gasoline <- subset(Gasoline, select = -c(Sample))
 Gasoline$yield <- Gasoline$yield / 100
 
 # ---- Fitting the models ----
@@ -31,8 +31,9 @@ f <- as.formula(paste("satisfaction ~", paste(n[-1], collapse = " + ")))
 gam_ocat <- gam(f, data = sat, family = ocat(R = R))
 
 # GAMLSS
-gamlss_beta_mu <- gamlss(yield ~ ., data = Gasoline, fam = BE())
-gamlss_beta_sig <- gamlss(yield ~ ., sigma.formula = ~ endpoint + ASTM, data = Gasoline, fam = BE())
+gamlss_beta_mu <- gamlss(yield ~ ., data = Gasoline, fam = BE(), trace = FALSE)
+gamlss_beta_sig <- gamlss(yield ~ ., sigma.formula = ~ endpoint + ASTM,
+                          data = Gasoline, fam = BE(), trace = FALSE)
 
 # ---- Calculating variable importance - GLM ----
 hp_glm <- vibe(glm_bin, metric = "hp", gofmetric = "R2e", progress = FALSE)
@@ -51,5 +52,12 @@ summary(hp_gam)
 summary(rw_gam)
 
 # ---- Calculating variable importance - GAMLSS ----
-hp_gamlss <- vibe(gamlss_beta_mu, metric = "hp", gofmetric = "R2e", progress = FALSE)
-hp_gamlss <- vibe(gamlss_beta_sig, metric = "hp", gofmetric = "R2e", progress = FALSE)
+hp_gamlss_mu <- vibe(gamlss_beta_mu, metric = "hp", gofmetric = "R2e", progress = FALSE)
+hp_gamlss_sig <- vibe(gamlss_beta_sig, metric = "hp", gofmetric = "R2e", progress = FALSE)
+rw_gamlss_mu <- vibe(gamlss_beta_mu, metric = "relweights", gofmetric = "R2e")
+rw_gamlss_sig <- vibe(gamlss_beta_mu, metric = "relweights", gofmetric = "R2e")
+lapply(list(hp_gamlss_mu, hp_gamlss_sig, rw_gamlss_mu, rw_gamlss_sig),
+       FUN = print)
+lapply(list(hp_gamlss_mu, hp_gamlss_sig, rw_gamlss_mu, rw_gamlss_sig),
+       FUN = summary)
+

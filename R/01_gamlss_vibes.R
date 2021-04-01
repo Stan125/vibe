@@ -27,10 +27,10 @@ vibe.gamlss <- function(object,
   # Model Class - MC with added EE since it sounds cool
   mcee <- class_finder(object)
 
-  if (metric == "hp") {
+  ## Obtain parameters connected to expl variables
+  modeled_pars <- det_npar(object)
 
-    ## Obtain parameters connected to expl variables
-    modeled_pars <- det_npar(object)
+  if (metric == "hp") {
 
     ## Get gofs for each par
     gofs <- lapply(modeled_pars, FUN = function(par) {
@@ -101,12 +101,27 @@ vibe.gamlss <- function(object,
     if (gofmetric != "R2e")
       stop("Currently only metric 'R2e' implemented")
 
-    # Relative Weights
-    relweight_res <- rel_weights(expl_df = expl_df,
-                                 fam = fam,
-                                 depvar = depvar,
-                                 gofmetric = gofmetric,
-                                 class = mcee)
+    # Do rel weights for each param
+    ## Get gofs for each par
+    relweight_res <- lapply(modeled_pars, FUN = function(par) {
+      base_df_par <- model.frame(object, what = par)
+
+      if (par == "mu") {
+        expl_df_par <- base_df_par[, -1, drop = FALSE]
+      } else {
+        expl_df_par <- base_df_par
+      }
+
+      # Relative Weights
+      relweight_res <- rel_weights(expl_df = expl_df_par,
+                                   fam = fam,
+                                   depvar = depvar,
+                                   gofmetric = gofmetric,
+                                   class = mcee,
+                                   param = par)
+    })
+    relweight_res <- do.call("rbind", args = relweight_res)
+    row.names(relweight_res) <- NULL
 
     # Summarize into nice format
     result <- make_vibe(results = relweight_res,

@@ -4,7 +4,7 @@
 \alias{rel_weights}
 \title{Compute Relative Weights}
 \usage{
-rel_weights(expl_df, depvar, fam, class, gofmetric)
+rel_weights(expl_df, depvar, fam, class, gofmetric, param = "mu")
 }
 \description{
 Compute Relative Weights
