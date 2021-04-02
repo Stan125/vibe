@@ -55,9 +55,22 @@ summary(rw_gam)
 hp_gamlss_mu <- vibe(gamlss_beta_mu, metric = "hp", gofmetric = "R2e", progress = FALSE)
 hp_gamlss_sig <- vibe(gamlss_beta_sig, metric = "hp", gofmetric = "R2e", progress = FALSE)
 rw_gamlss_mu <- vibe(gamlss_beta_mu, metric = "relweights", gofmetric = "R2e")
-rw_gamlss_sig <- vibe(gamlss_beta_mu, metric = "relweights", gofmetric = "R2e")
+rw_gamlss_sig <- vibe(gamlss_beta_sig, metric = "relweights", gofmetric = "R2e")
 lapply(list(hp_gamlss_mu, hp_gamlss_sig, rw_gamlss_mu, rw_gamlss_sig),
        FUN = print)
 lapply(list(hp_gamlss_mu, hp_gamlss_sig, rw_gamlss_mu, rw_gamlss_sig),
        FUN = summary)
 
+# ---- Plotting ----
+cur_env <- environment()
+obj <- ls(envir = cur_env)
+plot_list <- lapply(obj[grep("rw|hp", obj)], FUN = function(x) {
+  plot(get(x, envir = cur_env))
+})
+pdf("17_05_all_scatter.pdf", onefile = TRUE,
+    width = 12, height = 7)
+for (i in seq(length(plot_list))) {
+  print(plot_list[[i]])
+}
+dev.off()
+file.remove("17_05_all_scatter.pdf")
