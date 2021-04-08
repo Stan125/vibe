@@ -9,7 +9,7 @@ plot.vibe <- function(x) {
     geom_bar(stat = "identity", position = position_dodge()) +
     labs(x = "Variables", y = "%",
          title = paste0("Percentages of independent effects on '",
-                        rw_gamlss_sig$depvar_name,"'"),
+                        x$depvar_name,"'"),
          subtitle = paste0("Modeled parameters: '",
                            paste(unique(x$results$param), collapse = ", "), "'\n",
                            "Used metric: '", x$metric, "'")) +
