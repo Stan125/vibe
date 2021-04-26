@@ -34,11 +34,15 @@ vibe.gamlss <- function(object,
 
     ## Get gofs for each par
     gofs <- lapply(modeled_pars, FUN = function(par) {
-      expl_df_par <- model.frame(object, what = par)
+      base_df_par <- model.frame(object, what = par)
 
       # Get expl df's
-      if (depvar_name %in% colnames(expl_df_par))
-        expl_df_par <- expl_df_par[, -c(which(colnames(expl_df_par) == depvar_name))]
+      if (depvar_name %in% colnames(base_df_par)) {
+        expl_df_par <- base_df_par[, -c(which(colnames(base_df_par) == depvar_name))]
+      } else {
+        expl_df_par <- base_df_par
+      }
+
 
       ## Obtain model ids
       model_ids_par <- mids(ncol(expl_df_par))
