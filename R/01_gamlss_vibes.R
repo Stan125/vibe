@@ -67,14 +67,10 @@ vibe.gamlss <- function(object,
 
     # Get expl names
     expl_names <- lapply(modeled_pars, FUN = function(par) {
-      base_df_par <- model.frame(object, what = par)
-
-      if (par == "mu") {
-        expl_df_par <- base_df_par[, -1, drop = FALSE]
-      } else {
-        expl_df_par <- base_df_par
-      }
-      return(colnames(expl_df_par))
+      base_df_par_names <- colnames(model.frame(object, what = par))
+      if (depvar_name %in% base_df_par_names)
+        base_df_par_names <- base_df_par_names[-which(base_df_par_names == depvar_name)]
+      return(base_df_par_names)
     })
 
     gof_list <- list(gofs = gofs,
@@ -104,13 +100,11 @@ vibe.gamlss <- function(object,
     # Do rel weights for each param
     ## Get gofs for each par
     relweight_res <- lapply(modeled_pars, FUN = function(par) {
-      base_df_par <- model.frame(object, what = par)
+      expl_df_par <- model.frame(object, what = par)
 
-      if (par == "mu") {
-        expl_df_par <- base_df_par[, -1, drop = FALSE]
-      } else {
-        expl_df_par <- base_df_par
-      }
+      # Get expl df's
+      if (depvar_name %in% colnames(expl_df_par))
+        expl_df_par <- expl_df_par[, -c(which(colnames(expl_df_par) == depvar_name))]
 
       # Relative Weights
       relweight_res <- rel_weights(expl_df = expl_df_par,
