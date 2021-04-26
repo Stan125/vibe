@@ -4,10 +4,12 @@
 \alias{plot.vibe}
 \title{Plotting}
 \usage{
-\method{plot}{vibe}(x)
+\method{plot}{vibe}(x, ...)
 }
 \arguments{
 \item{x}{A 'vibe' object created with \link{vibe}.}
+
+\item{...}{'Additional arguments'}
 }
 \description{
 Plot function for 'vibe' objects
