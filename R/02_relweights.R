@@ -5,7 +5,7 @@
 #' @importFrom stats aggregate glm coef sd predict
 #' @importFrom mgcv gam
 #' @importFrom gamlss gamlss
-rel_weights <- function(expl_df, depvar, fam, class, gofmetric, param = "mu") {
+rel_weights <- function(expl_df, depvar, fam, class, gofmetric, param = "mu", expl_df_mu = NULL) {
 
   # What if there's categorical variables?
   non_numeric_vars <- sapply(expl_df, FUN = function(x) return(!is.numeric(x)))
@@ -74,7 +74,13 @@ rel_weights <- function(expl_df, depvar, fam, class, gofmetric, param = "mu") {
     } else if (param == "sigma") {
 
       # Get unstandardized coefficients
-      mfull <- gamlss(depvar ~ 1, sigma.formula = ~ Z, family = fam, trace = FALSE)
+      if (!is.null(expl_df_mu)) {
+        X_mu <- as.matrix(expl_df_mu)
+      } else {
+        X_mu <- 1
+      }
+
+      mfull <- gamlss(depvar ~ X_mu, sigma.formula = ~ Z, family = fam, trace = FALSE)
       coefs <- coef(mfull, what = "sigma")[2:(ncol(X) + 1)]
 
       # Get S
