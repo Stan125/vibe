@@ -7,7 +7,7 @@
 #' @export
 plot.vibe <- function(x, ...) {
 
-  if (!exists(perc))
+  if (!exists("perc"))
     perc <- FALSE
 
   if (perc) {
@@ -33,7 +33,6 @@ plot.vibe <- function(x, ...) {
       theme_bw() +
       coord_flip()
   }
-
 
   # if multiple pars
   if (x$npar == 2)
