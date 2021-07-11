@@ -24,7 +24,7 @@ plot.vibe <- function(x, ...) {
   } else {
     gg <- ggplot(x$results, aes(x = var, y = indep_effects)) +
       geom_bar(stat = "identity", position = position_dodge()) +
-      labs(x = "Variables", y = "%",
+      labs(x = "Variables", y = "Amount of change in GOF",
            title = paste0("Percentages of independent effects on '",
                           x$depvar_name,"'"),
            subtitle = paste0("Modeled parameters: '",

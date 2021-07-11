@@ -25,14 +25,17 @@ Gasoline$yield <- Gasoline$yield / 100
 glm_bin <- glm(formula = stunting ~ ., data = india)
 
 # GAM
-R <- length(unique(sat$satisfaction))
-n <- names(sat)
-f <- as.formula(paste("satisfaction ~", paste(n[-1], collapse = " + ")))
-gam_ocat <- gam(f, data = sat, family = ocat(R = R))
+gam_ocat <- gam(
+  satisfaction ~ admin + hygiene + time_appointment +
+    quality_dr + diagnosis_exactness + equipment_modern +
+    friendly_workers + parking_playingrooms_cafes,
+  data = sat, family = ocat(R = 3)
+)
 
 # GAMLSS
 gamlss_beta_mu <- gamlss(yield ~ ., data = Gasoline, fam = BE(), trace = FALSE)
-gamlss_beta_sig <- gamlss(yield ~ ., sigma.formula = ~ endpoint + ASTM,
+gamlss_beta_sig <- gamlss(yield ~ endpoint + ASTM,
+                          sigma.formula = ~ endpoint,
                           data = Gasoline, fam = BE(), trace = FALSE)
 
 # ---- Calculating variable importance - GLM ----
