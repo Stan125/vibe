@@ -53,7 +53,6 @@ det_npar <- function(object) {
   return(unlist(modeled_pars))
 }
 
-
 #' Error handlers
 #'
 #' @keywords internal

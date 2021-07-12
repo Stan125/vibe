@@ -74,13 +74,16 @@ part_core <- function(gofs_vector, expl_names, model_ids) {
   J_allocs <- cbind.data.frame(var = expl_names, J_allocs)
 
   # Put J_alloc_perc to J_alloc (Percentages)
-  J_allocs_perc <- apply(J_allocs[, -1], 2, FUN = function(x) return(x / sum(x))) # -1 because first column is variable names
+  if (nvar > 1)
+    J_allocs_perc <- apply(J_allocs[, -1, drop = FALSE], 2, FUN = function(x) return(x / sum(x))) # -1 because first column is variable names
+  else
+    J_allocs_perc <- J_allocs[-1]
   colnames(J_allocs_perc) <- paste0(colnames(J_allocs_perc), "_perc")
   J_allocs <- cbind(J_allocs, J_allocs_perc)
 
   # Make the sum and convert to tibble for nice printing
   J_allocs <-
-    rbind(J_allocs, data.frame(var = "SUM", t(apply(J_allocs[,-1], 2, FUN = sum))))
+    rbind(J_allocs, data.frame(var = "SUM", t(apply(J_allocs[, -1, drop = FALSE], 2, FUN = sum))))
   J_allocs <- as_tibble(J_allocs)
 
   # Get total effects
@@ -89,6 +92,6 @@ part_core <- function(gofs_vector, expl_names, model_ids) {
   # Create and return tibble
   main_res <- tibble(var = expl_names, indep_effects = I,
                      joint_effects = J, total_effects = Tot,
-                     indep_perc = I / sum(I), joint_perc = J / sum(J))
+                     indep_perc = I / sum(I), joint_perc = ifelse(is.nan(J / sum(J)), 1, J / sum(J)))
   return(list(main = main_res, joint_allocs = J_allocs))
 }
