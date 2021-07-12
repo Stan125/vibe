@@ -52,9 +52,12 @@ part_core <- function(gofs_vector, expl_names, model_ids) {
 
   # Get all permutations and sort them
   perms <- do.call(rbind, permn(nvar)) # Every row is a permutation
-  first_two_nums <- apply(perms, 1, FUN = function(x) return((x[1] * 10) + x[2]))
+  if (nvar > 1)
+    first_two_nums <- apply(perms, 1, FUN = function(x) return((x[1] * 10) + x[2]))
+  else
+    first_two_nums <- 1
   sort_order <- sort(first_two_nums, index.return = TRUE)$ix
-  perms <- perms[sort_order, ]
+  perms <- perms[sort_order, ,drop = FALSE]
 
   # Differences for each permutation and each modeled parameter
   # Heart of the function!
