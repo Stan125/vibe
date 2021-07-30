@@ -3,12 +3,10 @@
 #' Plot function for 'vibe' objects
 #' @param x A 'vibe' object created with \link{vibe}.
 #' @param ... 'Additional arguments'
+#' @param perc Should percentages be shown, or raw differences in goodness-of-fit?
 #' @import ggplot2
 #' @export
-plot.vibe <- function(x, ...) {
-
-  if (!exists("perc"))
-    perc <- FALSE
+plot.vibe <- function(x, ..., perc = FALSE) {
 
   if (perc) {
     gg <- ggplot(x$results, aes(x = var, y = indep_perc)) +

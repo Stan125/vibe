@@ -4,12 +4,14 @@
 \alias{plot.vibe}
 \title{Plotting}
 \usage{
-\method{plot}{vibe}(x, ...)
+\method{plot}{vibe}(x, ..., perc = FALSE)
 }
 \arguments{
 \item{x}{A 'vibe' object created with \link{vibe}.}
 
 \item{...}{'Additional arguments'}
+
+\item{perc}{Should percentages be shown, or raw differences in goodness-of-fit?}
 }
 \description{
 Plot function for 'vibe' objects
