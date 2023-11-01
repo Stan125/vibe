@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // perm_cpp
 Rcpp::List perm_cpp(Rcpp::NumericMatrix perms, Rcpp::CharacterVector model_ids, Rcpp::NumericVector gofs_vector);
 RcppExport SEXP _vibe_perm_cpp(SEXP permsSEXP, SEXP model_idsSEXP, SEXP gofs_vectorSEXP) {
