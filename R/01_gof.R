@@ -1,7 +1,6 @@
 #' @importFrom stats logLik
 #' @export
 #' @method gof default
-#' @importFrom methods is
 
 gof.default <- function(object, gofmetric = "R2e", m0 = NULL, ...) {
   if (!is_any_multiple_classes(object, c("glm", "gam", "gamlss")))

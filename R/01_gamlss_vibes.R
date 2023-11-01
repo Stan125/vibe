@@ -23,6 +23,9 @@ vibe.gamlss <- function(object,
 
   # Obtain family
   fam <- family(object)
+  if (length(fam) > 1) {
+    fam <- fam[1]
+  }
 
   # Model Class - MC with added EE since it sounds cool
   mcee <- class_finder(object)

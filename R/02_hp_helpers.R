@@ -110,7 +110,7 @@ fit_and_gof <- function(depvar,
 
   # GAMLSS ----
   if (class == "gamlss") {
-    if (!param %in% c("mu", "sigma"))
+    if (!(param %in% c("mu", "sigma")))
       stop("Vibe currently only supports mu and sigma parameters")
 
     m0 <- gamlss(depvar ~ 1, family = fam, trace = FALSE)
