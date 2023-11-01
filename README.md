@@ -1,7 +1,5 @@
 # VIBE
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/Stan125/vibe.svg?branch=master)](https://travis-ci.com/Stan125/vibe)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/Stan125/vibe?branch=master&svg=true)](https://ci.appveyor.com/project/Stan125/vibe)
 [![R-CMD-check](https://github.com/Stan125/vibe/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Stan125/vibe/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 THe acronym **vibe** stands for **V**ariable **I**mportance **BE**yond linear models. Significance assessments of single variables are part of every classical regression modeling toolset, but they fail at displaying which variables contribute the most in explaining the target variable, since comparisons cannot reasonably be made. The software package **vibe** implements two different methods for ranking the impact of our explanatory variables on the dependent variable ´y´:
