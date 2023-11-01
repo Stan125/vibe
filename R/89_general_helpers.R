@@ -82,6 +82,6 @@ error_handling <- function(object = NULL,
 #' @keywords internal
 
 is_any_multiple_classes <- function(object, classes) {
-  isin <- sapply(classes, is, FUN = function(x) is(object, x))
+  isin <- sapply(classes, FUN = function(x) is(object, x))
   return(any(isin))
 }
