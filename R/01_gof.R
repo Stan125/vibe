@@ -4,7 +4,8 @@
 #' @importFrom methods is
 
 gof.default <- function(object, gofmetric = "R2e", m0 = NULL, ...) {
-  if (!is(object, c("glm", "gam", "gamlss")))
+  if (!is_any_multiple_classes(object, c("glm", "gam", "gamlss")))
+    stop("Doesn't have the correct classes")
   if (gofmetric == "R2e" & is.null(m0))
     stop("Empty model needs to be provided")
 

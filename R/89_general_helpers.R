@@ -76,3 +76,12 @@ error_handling <- function(object = NULL,
   if (!is.null(progress))
     stopifnot(is.logical(progress))
 }
+
+#' Multiple class checker
+#'
+#' @keywords internal
+
+is_any_multiple_classes <- function(object, classes) {
+  isin <- sapply(classes, is, FUN = function(x) is(object, x))
+  return(any(isin))
+}
