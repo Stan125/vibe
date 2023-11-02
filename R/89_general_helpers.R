@@ -6,6 +6,7 @@
 #'
 #' @importFrom pbmcapply pbmclapply
 #' @importFrom parallel mclapply
+#' @importFrom methods is
 pcapply <- function(X, FUN, ncores, progress = TRUE) {
   # Coerce to list where each element is one row
   li <- unname(as.list(as.data.frame(t(X))))
@@ -80,6 +81,7 @@ error_handling <- function(object = NULL,
 #' Multiple class checker
 #'
 #' @keywords internal
+#' @importFrom methods is
 
 is_any_multiple_classes <- function(object, classes) {
   isin <- sapply(classes, FUN = function(x) is(object, x))

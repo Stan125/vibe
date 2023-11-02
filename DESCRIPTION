@@ -17,6 +17,7 @@ Imports:
         tibble (>= 3.1.0),
         fastDummies (>= 1.6.3),
         mgcv,
+        rlang,
         Rcpp
 Description: Functions for calculating variable importance metrics for glm, gam and gamlss classes.
 License: GPL-3
@@ -26,7 +27,7 @@ BugReports: https://github.com/Stan125/vibe/issues
 LazyData: true
 RoxygenNote: 7.2.3
 LinkingTo: Rcpp
-SystemRequirements: C++11
+SystemRequirements: C++
 Suggests: 
     testthat (>= 3.0.0),
     devtools (>= 2.3.2),
