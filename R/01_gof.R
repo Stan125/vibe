@@ -3,10 +3,12 @@
 #' @method gof default
 
 gof.default <- function(object, gofmetric = "R2e", m0 = NULL, ...) {
-  if (!is_any_multiple_classes(object, c("glm", "gam", "gamlss")))
+  if (!is_any_multiple_classes(object, c("glm", "gam", "gamlss"))) {
     stop("Doesn't have the correct classes")
-  if (gofmetric == "R2e" & is.null(m0))
+  }
+  if (gofmetric == "R2e" && is.null(m0)) {
     stop("Empty model needs to be provided")
+  }
 
   if (gofmetric == "R2e") {
     l0 <- as.numeric(logLik(m0))
@@ -20,5 +22,6 @@ gof.default <- function(object, gofmetric = "R2e", m0 = NULL, ...) {
 #' @param object Regression object. One of \code{vibe:::supported_classes}.
 #' @param ... Additional arguments
 #' @export
-gof <- function(object, ...)
+gof <- function(object, ...) {
   UseMethod("gof", object)
+}

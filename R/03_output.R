@@ -2,7 +2,6 @@
 #'
 #' @keywords internal
 make_vibe <- function(results, metric, depvar_name, class) {
-
   # Create object for hierarchical partitioning
   if (metric == "hp") {
     vibing_list <- list(
@@ -11,8 +10,10 @@ make_vibe <- function(results, metric, depvar_name, class) {
       npar = results$npar,
       class = class,
       gof = results$gof,
-      results = results$results[, c("var", "param",
-                                    "indep_effects", "indep_perc")]
+      results = results$results[, c(
+        "var", "param",
+        "indep_effects", "indep_perc"
+      )]
     )
   }
 
@@ -54,7 +55,6 @@ print.vibe <- function(x, ...) {
 #' @param ... Additional arguments
 #' @export
 summary.vibe <- function(object, ...) {
-
   # Basic info
   cat("Variable Importance Results:\n")
   str <- paste0(

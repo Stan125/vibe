@@ -7,6 +7,7 @@
 class_finder(object)
 }
 \description{
-This function is just there to find the class of object and only give back one class...
+This function is just there to find the class of object
+and only give back one class...
 }
 \keyword{internal}

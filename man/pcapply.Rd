@@ -4,9 +4,10 @@
 \alias{pcapply}
 \title{Parallel Column Apply}
 \usage{
-pcapply(X, FUN, ncores, progress = TRUE)
+pcapply(x_mat, fun, ncores, progress = TRUE)
 }
 \description{
-works like apply but also coerces into nice format like sapply. Gives out a single vector of numbers
+works like apply but also coerces into nice format like sapply.
+Gives out a single vector of numbers
 }
 \keyword{internal}

@@ -12,12 +12,14 @@ rm(list = ls())
 
 # Data
 india <- vibe::india
-sat <- subset(vibe::sat, select = -c(lab_services, time_waiting,
-                                     checkup, waiting_room, hospital_room,
-                                     drug_availability, aval_specialists,
-                                     dr_communication))
-Gasoline <- subset(Gasoline, select = -c(Sample))
-Gasoline$yield <- Gasoline$yield / 100
+sat <- subset(vibe::sat, select = -c(
+  lab_services, time_waiting,
+  checkup, waiting_room, hospital_room,
+  drug_availability, aval_specialists,
+  dr_communication
+))
+gasoline <- subset(gasoline, select = -c(Sample))
+gasoline$yield <- gasoline$yield / 100
 
 # ---- Fitting the models ----
 
@@ -33,10 +35,11 @@ gam_ocat <- gam(
 )
 
 # GAMLSS
-gamlss_beta_mu <- gamlss(yield ~ ., data = Gasoline, fam = BE(), trace = FALSE)
+gamlss_beta_mu <- gamlss(yield ~ ., data = gasoline, fam = BE(), trace = FALSE)
 gamlss_beta_sig <- gamlss(yield ~ endpoint + ASTM,
-                          sigma.formula = ~ endpoint,
-                          data = Gasoline, fam = BE(), trace = FALSE)
+  sigma.formula = ~endpoint,
+  data = gasoline, fam = BE(), trace = FALSE
+)
 
 # ---- Calculating variable importance - GLM ----
 hp_glm <- vibe(glm_bin, metric = "hp", gofmetric = "R2e", progress = FALSE)
@@ -55,14 +58,22 @@ summary(hp_gam)
 summary(rw_gam)
 
 # ---- Calculating variable importance - GAMLSS ----
-hp_gamlss_mu <- vibe(gamlss_beta_mu, metric = "hp", gofmetric = "R2e", progress = FALSE)
-hp_gamlss_sig <- vibe(gamlss_beta_sig, metric = "hp", gofmetric = "R2e", progress = FALSE)
+hp_gamlss_mu <- vibe(gamlss_beta_mu,
+  metric = "hp",
+  gofmetric = "R2e", progress = FALSE
+)
+hp_gamlss_sig <- vibe(gamlss_beta_sig,
+  metric = "hp",
+  gofmetric = "R2e", progress = FALSE
+)
 rw_gamlss_mu <- vibe(gamlss_beta_mu, metric = "relweights", gofmetric = "R2e")
 rw_gamlss_sig <- vibe(gamlss_beta_sig, metric = "relweights", gofmetric = "R2e")
 lapply(list(hp_gamlss_mu, hp_gamlss_sig, rw_gamlss_mu, rw_gamlss_sig),
-       FUN = print)
+  FUN = print
+)
 lapply(list(hp_gamlss_mu, hp_gamlss_sig, rw_gamlss_mu, rw_gamlss_sig),
-       FUN = summary)
+  FUN = summary
+)
 
 # ---- Plotting ----
 cur_env <- environment()
@@ -70,11 +81,12 @@ obj <- ls(envir = cur_env)
 plot_list <- lapply(obj[grep("rw|hp", obj)], FUN = function(x) {
   plot(get(x, envir = cur_env))
 })
-pdf("17_05_all_scatter.pdf", onefile = TRUE,
-    width = 12, height = 7)
-for (i in seq(length(plot_list))) {
+pdf("17_05_all_scatter.pdf",
+  onefile = TRUE,
+  width = 12, height = 7
+)
+for (i in seq_along(plot_list)) {
   print(plot_list[[i]])
 }
 dev.off()
 file.remove("17_05_all_scatter.pdf")
-

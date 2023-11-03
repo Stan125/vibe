@@ -11,7 +11,8 @@
 
 \item{...}{'Additional arguments'}
 
-\item{perc}{Should percentages be shown, or raw differences in goodness-of-fit?}
+\item{perc}{Should percentages be shown, or raw differences in
+goodness-of-fit?}
 }
 \description{
 Plot function for 'vibe' objects
