@@ -1,0 +1,59 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# vibe
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/Stan125/vibe/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Stan125/vibe/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/vibe)](https://CRAN.R-project.org/package=vibe)
+<!-- badges: end -->
+
+The acronym vibe stands for *V*ariable *I*mportance *BE*yond linear models. 
+
+The package computes two different variable importance metrics for three model classes:
+
+- Generalised Linear Models (`glm` class, R base)
+- Generalised Additive Models (`gam` class, `mgcv` package)
+- Generalised Additive Models for Location, Scale and Shape (`gamlss` class, `gamlss` package)
+
+## Installation
+
+You can install the development version of vibe from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("Stan125/vibe")
+```
+
+# Why?
+
+Significance assessments of single variables are part of every classical regression modeling toolset, but they fail at displaying which variables contribute the most in explaining the target variable, since comparisons cannot reasonably be made. The software package vibe implements two different methods for ranking the impact of our explanatory variables on the dependent variable ´y´:
+
+- Hierarchical Partitioning (Chevan & Sutherland, 1991)
+- Relative Weights (Johnson, 2000)
+
+To obtain the first metric, all submodels are computed and the average reduction/increase in the goodness of fit is calculated. This is the most complete metric and gives the option to use non-linear effects like penalized splines etc. Relative Weights is an approximation to Hierarchical Partitioning which is useful in cases with lots of covariates, since it is much faster. The approximation works through orthogonalization of the design matrix which is then used for an orthogonal model. The results of the orthogonal model are then reweighted using standardized coefficients of the original model.
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library("vibe")
+
+glm_bin <- glm(formula = stunting ~ ., data = vibe::india)
+hp_glm <- vibe(glm_bin, metric = "hp", gofmetric = "R2e", progress = FALSE)
+plot(hp_glm)
+```

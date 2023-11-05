@@ -6,3 +6,4 @@
 ^\.github$
 .lintr
 .pre-commit-config.yaml
+^README\.Rmd$
