@@ -18,7 +18,7 @@ sat <- subset(vibe::sat, select = -c(
   drug_availability, aval_specialists,
   dr_communication
 ))
-gasoline <- subset(gasoline, select = -c(Sample))
+gasoline <- subset(Gasoline, select = -c(Sample))
 gasoline$yield <- gasoline$yield / 100
 
 # ---- Fitting the models ----

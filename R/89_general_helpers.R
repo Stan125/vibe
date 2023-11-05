@@ -15,11 +15,11 @@ pcapply <- function(x_mat, fun, ncores, progress = TRUE) {
   # Apply function
   if (progress) {
     output <- pbmclapply(li,
-      fun = fun, ignore.interactive = TRUE,
+      FUN = fun, ignore.interactive = TRUE,
       mc.cores = ncores
     )
   } else {
-    output <- mclapply(li, fun = fun, mc.cores = ncores)
+    output <- mclapply(li, FUN = fun, mc.cores = ncores)
   }
 
   # Make output nice
@@ -53,7 +53,7 @@ class_finder <- function(object) {
 #' @keywords internal
 det_npar <- function(object) {
   pars <- object$parameters
-  modeled_pars <- sapply(pars, fun = function(x) {
+  modeled_pars <- sapply(pars, FUN = function(x) {
     if (ncol(object[[paste0(x, ".x")]]) > 1) {
       return(x)
     } else {
@@ -96,6 +96,6 @@ error_handling <- function(object = NULL,
 #' @importFrom methods is
 
 is_any_multiple_classes <- function(object, classes) {
-  isin <- sapply(classes, fun = function(x) is(object, x))
+  isin <- sapply(classes, FUN = function(x) is(object, x))
   return(any(isin))
 }
