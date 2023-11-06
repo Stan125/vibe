@@ -1,3 +1,15 @@
+#' Variable Importance calculation for a `gam` object
+#'
+#' @description
+#'
+#'
+#' @param object A `gam` object, typically result of [`mgcv::gam`].
+#' @param metric One of `c("hp", "relweights")`, which stand for hierarchical partitioning and relative weights
+#' @param gofmetric Goodness-of-fit metric, the changes of which shall be analysed
+#' @param ncores Number of cores used for the model fitting process, happening in [`part_core`].
+#' @param progress Boolean. Do you want to see a progress bar?
+#' @param ...
+#'
 #' @importFrom stats model.frame
 #' @importFrom stats family
 #' @export
@@ -6,8 +18,7 @@ vibe.gam <- function(object,
                      metric = "hp",
                      gofmetric = "R2e",
                      ncores = 1,
-                     progress = TRUE,
-                     ...) {
+                     progress = TRUE) {
   # Defensive Programming - is everything supplied the way it should be?
   error_handling(
     object = object,

@@ -33,3 +33,4 @@ Suggests:
     devtools (>= 2.3.2),
     nlme,
 Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
