@@ -1,3 +1,12 @@
+#' Variable Importance calculation for a `glm` object
+#'
+#' @description `vibe.glm` takes a fitted [glm()] object and calculates
+#' variable importance metrics by fitting the submodels required, extracting the
+#' desired goodness-of-fit metric and applying variable importance metrics to
+#' it.
+#' @param object A `glm` object, typically result of [glm()].
+#' @inheritParams vibe.gam
+#'
 #' @importFrom stats model.frame
 #' @importFrom stats family
 #' @export
@@ -6,8 +15,7 @@ vibe.glm <- function(object,
                      metric = "hp",
                      gofmetric = "R2e",
                      ncores = 1,
-                     progress = TRUE,
-                     ...) {
+                     progress = TRUE) {
   # Defensive Programming - is everything supplied the way it should be?
   error_handling(
     object = object,

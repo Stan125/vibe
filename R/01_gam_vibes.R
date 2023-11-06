@@ -1,19 +1,23 @@
 #' Variable Importance calculation for a `gam` object
 #'
-#' @description
+#' @description `vibe.gam` takes a fitted [mgcv::gam()] object and calculates
+#' variable importance metrics by fitting the submodels required, extracting the
+#' desired goodness-of-fit metric and applying variable importance metrics to
+#' it.
 #'
-#'
-#' @param object A `gam` object, typically result of [`mgcv::gam`].
-#' @param metric One of `c("hp", "relweights")`, which stand for hierarchical partitioning and relative weights
-#' @param gofmetric Goodness-of-fit metric, the changes of which shall be analysed
-#' @param ncores Number of cores used for the model fitting process, happening in [`part_core`].
+#' @param object A `gam` object, typically result of [mgcv::gam()].
+#' @param metric One of `c("hp", "relweights")`, which stand for hierarchical
+#'   partitioning and relative weights.
+#' @param gofmetric Goodness-of-fit metric, the changes of which shall be
+#'   analysed
+#' @param ncores Number of cores used for the model fitting process, happening
+#'   in [`part_core`].
 #' @param progress Boolean. Do you want to see a progress bar?
-#' @param ...
 #'
 #' @importFrom stats model.frame
 #' @importFrom stats family
 #' @export
-
+#' @examples
 vibe.gam <- function(object,
                      metric = "hp",
                      gofmetric = "R2e",
@@ -46,7 +50,7 @@ vibe.gam <- function(object,
     ## Obtain model ids
     model_ids <- mids(ncol(expl_df))
 
-    ## Fit models and get goodnesses of fit
+    ## Fit models and get goodness-es of fit
     gofs <- fit_and_gof(
       depvar = depvar,
       expl_df = expl_df,
