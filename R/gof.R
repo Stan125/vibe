@@ -1,4 +1,4 @@
-#' @title Function to obtain goodness-of-fit from regression object
+#' @title Obtain goodness-of-fit figure from regression object
 #' @description blabla
 #'
 #' @param object Regression object. One of \code{vibe:::supported_classes}.
