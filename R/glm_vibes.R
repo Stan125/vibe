@@ -12,15 +12,16 @@
 #' @export
 
 vibe.glm <- function(object,
-                     metric = "hp",
-                     gofmetric = "R2e",
+                     varimp = "hp",
+                     gof = "R2e",
                      ncores = 1,
-                     progress = TRUE) {
+                     progress = TRUE,
+                     ...) {
   # Defensive Programming - is everything supplied the way it should be?
   error_handling(
     object = object,
-    metric = metric,
-    gofmetric = gofmetric,
+    varimp = varimp,
+    gof = gof,
     progress = progress
   )
 
@@ -34,9 +35,11 @@ vibe.glm <- function(object,
   fam <- family(object)
 
   # Model Class - MC with added EE since it sounds cool
-  mcee <- supported_classes[supported_classes %in% class(object)]
+  mcee <- levels(scam$supported_classes)[
+    levels(scam$supported_classes) %in% class(object)
+    ]
 
-  if (metric == "hp") {
+  if (varimp == "hp") {
     ## Obtain model ids
     model_ids <- mids(ncol(expl_df))
 
@@ -47,7 +50,7 @@ vibe.glm <- function(object,
       fam = fam,
       ncores = ncores,
       progress = progress,
-      gofmetric = gofmetric,
+      gof = gof,
       class = mcee
     )
 
@@ -58,8 +61,8 @@ vibe.glm <- function(object,
       model_ids = model_ids,
       expl_names = list(mu = colnames(expl_df)),
       npar = 1,
-      gof = gofmetric,
-      metric = metric
+      gof = gof,
+      varimp = varimp
     )
 
     # Do hierarchical partitioning
@@ -69,16 +72,16 @@ vibe.glm <- function(object,
     result <- make_vibe(
       results = gof_res,
       depvar_name = depvar_name,
-      metric = metric,
+      varimp = varimp,
       class = mcee
     )
 
     # Return
     return(result)
-  } else if (metric == "relweights") {
+  } else if (varimp == "relweights") {
     # If anything different than r2e don't do it
-    if (gofmetric != "R2e") {
-      stop("Currently only metric 'R2e' implemented")
+    if (gof != "R2e") {
+      stop("Currently only varimp 'R2e' implemented")
     }
 
     # Relative Weights
@@ -86,7 +89,7 @@ vibe.glm <- function(object,
       expl_df = expl_df,
       fam = fam,
       depvar = depvar,
-      gofmetric = gofmetric,
+      gof = gof,
       class = mcee
     )
 
@@ -94,7 +97,7 @@ vibe.glm <- function(object,
     result <- make_vibe(
       results = relweight_res,
       depvar_name = depvar_name,
-      metric = metric,
+      varimp = varimp,
       class = mcee
     )
 

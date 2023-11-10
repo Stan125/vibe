@@ -5,7 +5,7 @@
 #' @importFrom stats aggregate glm coef sd predict
 #' @importFrom mgcv gam
 #' @importFrom gamlss gamlss
-rel_weights <- function(expl_df, depvar, fam, class, gofmetric, param = "mu") {
+rel_weights <- function(expl_df, depvar, fam, class, gof, param = "mu") {
   # What if there's categorical variables?
   non_numeric_vars <- sapply(expl_df, FUN = function(x) {
     return(!is.numeric(x))
@@ -45,7 +45,7 @@ rel_weights <- function(expl_df, depvar, fam, class, gofmetric, param = "mu") {
 
     # Get gof (currently only R2e possible)
     m0 <- glm(depvar ~ 1, family = fam)
-    gofmod <- gof(mfull, gofmetric = gofmetric, m0 = m0)
+    gofmod <- obtain_gof(mfull, gof = gof, m0 = m0)
   }
 
   if (class == "gam") {
@@ -58,7 +58,7 @@ rel_weights <- function(expl_df, depvar, fam, class, gofmetric, param = "mu") {
 
     # Get gof (currently only R2e possible)
     m0 <- gam(depvar ~ 1, family = fam)
-    gofmod <- gof(mfull, gofmetric = gofmetric, m0 = m0)
+    gofmod <- obtain_gof(mfull, gof = gof, m0 = m0)
   }
 
   if (class == "gamlss") {
@@ -72,7 +72,7 @@ rel_weights <- function(expl_df, depvar, fam, class, gofmetric, param = "mu") {
 
       # Get gof (currently only R2e possible)
       m0 <- gamlss(depvar ~ 1, family = fam, trace = FALSE)
-      gofmod <- gof(mfull, gofmetric = gofmetric, m0 = m0)
+      gofmod <- obtain_gof(mfull, gof = gof, m0 = m0)
     } else if (param == "sigma") {
       # Get unstandardized coefficients
       mfull <- gamlss(
@@ -87,7 +87,7 @@ rel_weights <- function(expl_df, depvar, fam, class, gofmetric, param = "mu") {
 
       # Get gof (currently only R2e possible)
       m0 <- gamlss(depvar ~ 1, family = fam, trace = FALSE)
-      gofmod <- gof(mfull, gofmetric = gofmetric, m0 = m0)
+      gofmod <- obtain_gof(mfull, gof = gof, m0 = m0)
     }
   }
 

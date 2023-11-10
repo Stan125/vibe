@@ -71,7 +71,7 @@ fit_and_gof <- function(depvar,
                         fam,
                         ncores,
                         progress,
-                        gofmetric,
+                        gof,
                         class,
                         depvar_name,
                         base_df,
@@ -91,11 +91,11 @@ fit_and_gof <- function(depvar,
           family = fam,
           data = expl_df[, x, drop = FALSE]
         )
-        res <- gof(m, gofmetric = gofmetric, m0 = m0)
+        res <- obtain_gof(m, gof = gof, m0 = m0)
         return(res)
       }
     )
-    gofs <- c(gof(m0, m0 = m0), gofs)
+    gofs <- c(obtain_gof(m0, m0 = m0), gofs)
     return(gofs)
   }
 
@@ -112,11 +112,11 @@ fit_and_gof <- function(depvar,
           paste(varnames[x], collapse = " + ")
         ))
         m <- gam(f, family = fam, data = base_df)
-        res <- gof(m, gofmetric = gofmetric, m0 = m0)
+        res <- obtain_gof(m, gof = gof, m0 = m0)
         return(res)
       }
     )
-    gofs <- c(gof(m0, m0 = m0), gofs)
+    gofs <- c(obtain_gof(m0, m0 = m0), gofs)
     return(gofs)
   }
 
@@ -137,11 +137,11 @@ fit_and_gof <- function(depvar,
             paste(varnames[x], collapse = " + ")
           ))
           m <- gamlss(f, family = fam, data = base_df, trace = FALSE)
-          res <- gof(m, gofmetric = gofmetric, m0 = m0)
+          res <- obtain_gof(m, gof = gof, m0 = m0)
           return(res)
         }
       )
-      gofs <- c(gof(m0, m0 = m0), gofs)
+      gofs <- c(obtain_gof(m0, m0 = m0), gofs)
     } else if (param == "sigma") {
       gofs <- pcapply(combins,
         ncores = ncores, progress = progress,
@@ -152,11 +152,11 @@ fit_and_gof <- function(depvar,
             data = base_df,
             trace = FALSE
           )
-          res <- gof(m, gofmetric = gofmetric, m0 = m0)
+          res <- obtain_gof(m, gof = gof, m0 = m0)
           return(res)
         }
       )
-      gofs <- c(gof(m0, m0 = m0), gofs)
+      gofs <- c(obtain_gof(m0, m0 = m0), gofs)
     }
     return(gofs)
   }

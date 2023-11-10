@@ -37,7 +37,9 @@ pcapply <- function(x_mat, fun, ncores, progress = TRUE) {
 #' and only give back one class...
 #' @keywords internal
 class_finder <- function(object) {
-  mcee <- supported_classes[supported_classes %in% class(object)]
+  mcee <- levels(scam$supported_classes)[
+    levels(scam$supported_classes) %in% class(object)
+  ]
   if (any(mcee == "gam") && !any(mcee == "gamlss")) {
     mcee <- "gam"
   }
@@ -67,17 +69,17 @@ det_npar <- function(object) {
 #'
 #' @keywords internal
 error_handling <- function(object = NULL,
-                           metric = NULL,
-                           gofmetric = NULL,
+                           varimp = NULL,
+                           gof = NULL,
                            progress = NULL) {
   # Object
   if (!is.null(object)) {
-    stopifnot(any(class(object) %in% supported_classes))
+    stopifnot(any(class(object) %in% levels(scam$supported_classes)))
   }
 
   # Metric
-  if (!is.null(metric)) {
-    stopifnot(metric %in% c("relweights", "hp"))
+  if (!is.null(varimp)) {
+    stopifnot(varimp %in% c("relweights", "hp"))
   }
 
   # gofmetric

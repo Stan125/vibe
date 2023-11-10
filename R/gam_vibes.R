@@ -1,4 +1,4 @@
-#' Variable Importance calculation for a `gam` object
+#' @title Variable Importance calculation for a `gam` object
 #'
 #' @description `vibe.gam` takes a fitted [mgcv::gam()] object and calculates
 #' variable importance metrics by fitting the submodels required, extracting the
@@ -6,28 +6,41 @@
 #' it.
 #'
 #' @param object A `gam` object, typically result of [mgcv::gam()].
-#' @param metric One of `c("hp", "relweights")`, which stand for hierarchical
+#' @param varimp One of `c("hp", "relweights")`, which stand for hierarchical
 #'   partitioning and relative weights.
-#' @param gofmetric Goodness-of-fit metric, the changes of which shall be
+#' @param gof Goodness-of-fit metric, the changes of which shall be
 #'   analysed
 #' @param ncores Number of cores used for the model fitting process, happening
 #'   in [`part_core`].
 #' @param progress Boolean. Do you want to see a progress bar?
+#' @param ... Other arguments
 #'
 #' @importFrom stats model.frame
 #' @importFrom stats family
 #' @export
 #' @examples
+#' library("mgcv")
+#' gam_ocat <- gam(
+#' satisfaction ~ admin + hygiene + time_appointment +
+#'   quality_dr + diagnosis_exactness + equipment_modern +
+#'   friendly_workers + parking_playingrooms_cafes,
+#' data = vibe::sat, family = ocat(R = 3)
+#' )
+#' hp_gam <- vibe(gam_ocat, varimp = "hp", gof = "R2e", progress = FALSE)
+#' rw_gam <- vibe(gam_ocat, varimp = "relweights", gof = "R2e")
+#' print(hp_gam)
+#' print(rw_gam)
 vibe.gam <- function(object,
-                     metric = "hp",
-                     gofmetric = "R2e",
+                     varimp = "hp",
+                     gof = "R2e",
                      ncores = 1,
-                     progress = TRUE) {
+                     progress = TRUE,
+                     ...) {
   # Defensive Programming - is everything supplied the way it should be?
   error_handling(
     object = object,
-    metric = metric,
-    gofmetric = gofmetric,
+    varimp = varimp,
+    gof = gof,
     progress = progress
   )
 
@@ -41,12 +54,14 @@ vibe.gam <- function(object,
   fam <- family(object)
 
   # Model Class - MC with added EE since it sounds cool
-  mcee <- supported_classes[supported_classes %in% class(object)]
+  mcee <- levels(scam$supported_classes)[
+      levels(scam$supported_classes) %in% class(object)
+    ]
   if (any(mcee == "gam")) {
     mcee <- "gam"
   }
 
-  if (metric == "hp") {
+  if (varimp == "hp") {
     ## Obtain model ids
     model_ids <- mids(ncol(expl_df))
 
@@ -57,7 +72,7 @@ vibe.gam <- function(object,
       fam = fam,
       ncores = ncores,
       progress = progress,
-      gofmetric = gofmetric,
+      gof = gof,
       class = mcee,
       depvar_name = depvar_name,
       base_df = base_df
@@ -70,8 +85,8 @@ vibe.gam <- function(object,
       model_ids = model_ids,
       expl_names = list(mu = colnames(expl_df)),
       npar = 1,
-      gof = gofmetric,
-      metric = metric
+      gof = gof,
+      varimp = varimp
     )
 
     # Do hierarchical partitioning
@@ -81,16 +96,16 @@ vibe.gam <- function(object,
     result <- make_vibe(
       results = gof_res,
       depvar_name = depvar_name,
-      metric = metric,
+      varimp = varimp,
       class = mcee
     )
 
     # Return
     return(result)
-  } else if (metric == "relweights") {
+  } else if (varimp == "relweights") {
     # If anything different than r2e don't do it
-    if (gofmetric != "R2e") {
-      stop("Currently only metric 'R2e' implemented")
+    if (gof != "R2e") {
+      stop("Currently only varimp 'R2e' implemented")
     }
 
     # Relative Weights
@@ -98,7 +113,7 @@ vibe.gam <- function(object,
       expl_df = expl_df,
       fam = fam,
       depvar = depvar,
-      gofmetric = gofmetric,
+      gof = gof,
       class = mcee
     )
 
@@ -106,7 +121,7 @@ vibe.gam <- function(object,
     result <- make_vibe(
       results = relweight_res,
       depvar_name = depvar_name,
-      metric = metric,
+      varimp = varimp,
       class = mcee
     )
 

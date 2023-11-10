@@ -1,18 +1,26 @@
+#' @title Variable Importance calculation for a `gamlss` object
+#'
+#' @description `vibe.gamlss` takes a fitted [gamlss::gamlss()] object and calculates
+#' variable importance metrics by fitting the submodels required, extracting the
+#' desired goodness-of-fit metric and applying variable importance metrics to
+#' it.
+#' @inheritParams vibe.gam
+#'
 #' @importFrom stats model.frame
 #' @importFrom stats family
 #' @export
 
 vibe.gamlss <- function(object,
-                        metric = "hp",
-                        gofmetric = "R2e",
+                        varimp = "hp",
+                        gof = "R2e",
                         ncores = 1,
                         progress = TRUE,
                         ...) {
   # Defensive Programming - is everything supplied the way it should be?
   error_handling(
     object = object,
-    metric = metric,
-    gofmetric = gofmetric,
+    varimp = varimp,
+    gof = gof,
     progress = progress
   )
 
@@ -33,7 +41,7 @@ vibe.gamlss <- function(object,
   ## Obtain parameters connected to expl variables
   modeled_pars <- det_npar(object)
 
-  if (metric == "hp") {
+  if (varimp == "hp") {
     ## Get gofs for each par
     gofs <- lapply(modeled_pars, FUN = function(par) {
       base_df_par <- model.frame(object, what = par)
@@ -57,7 +65,7 @@ vibe.gamlss <- function(object,
         fam = fam,
         ncores = ncores,
         progress = progress,
-        gofmetric = gofmetric,
+        gof = gof,
         class = mcee,
         depvar_name = depvar_name,
         base_df = base_df_par,
@@ -85,8 +93,8 @@ vibe.gamlss <- function(object,
       gofs = gofs,
       expl_names = expl_names,
       npar = length(modeled_pars),
-      gof = gofmetric,
-      metric = metric
+      gof = gof,
+      varimp = varimp
     )
 
     # Do hierarchical partitioning
@@ -96,16 +104,16 @@ vibe.gamlss <- function(object,
     result <- make_vibe(
       results = gof_res,
       depvar_name = depvar_name,
-      metric = metric,
+      varimp = varimp,
       class = mcee
     )
 
     # Return
     return(result)
-  } else if (metric == "relweights") {
+  } else if (varimp == "relweights") {
     # If anything different than r2e don't do it
-    if (gofmetric != "R2e") {
-      stop("Currently only metric 'R2e' implemented")
+    if (gof != "R2e") {
+      stop("Currently only varimp 'R2e' implemented")
     }
 
     # Do rel weights for each param
@@ -124,7 +132,7 @@ vibe.gamlss <- function(object,
         expl_df = expl_df_par,
         fam = fam,
         depvar = depvar,
-        gofmetric = gofmetric,
+        gof = gof,
         class = mcee,
         param = par
       )
@@ -138,7 +146,7 @@ vibe.gamlss <- function(object,
     result <- make_vibe(
       results = relweight_res,
       depvar_name = depvar_name,
-      metric = metric,
+      varimp = varimp,
       class = mcee
     )
 

@@ -1,11 +1,11 @@
 #' Coerce results from algorithms into vibes object
 #'
 #' @keywords internal
-make_vibe <- function(results, metric, depvar_name, class) {
+make_vibe <- function(results, varimp, depvar_name, class) {
   # Create object for hierarchical partitioning
-  if (metric == "hp") {
+  if (varimp == "hp") {
     vibing_list <- list(
-      metric = metric,
+      varimp = varimp,
       depvar_name = depvar_name,
       npar = results$npar,
       class = class,
@@ -18,9 +18,9 @@ make_vibe <- function(results, metric, depvar_name, class) {
   }
 
   # Create object for relative weights
-  if (metric == "relweights") {
+  if (varimp == "relweights") {
     vibing_list <- list(
-      metric = metric,
+      varimp = varimp,
       depvar_name = depvar_name,
       npar = length(unique(results$param)),
       class = class,
@@ -41,7 +41,7 @@ make_vibe <- function(results, metric, depvar_name, class) {
 print.vibe <- function(x, ...) {
   string <- paste0(
     "A 'vibe' object with the following properties:\n",
-    "Metric: ", x$metric, "\n",
+    "Var. Imp. Metric: ", x$varimp, "\n",
     "Model class: ", x$class, "\n",
     "Dep. Variable: ", x$depvar_name, "\n",
     "Goodness of fit: ", x$gof, ".\n"
@@ -58,7 +58,7 @@ summary.vibe <- function(object, ...) {
   # Basic info
   cat("Variable Importance Results:\n")
   str <- paste0(
-    "Metric: ", object$metric, "\n",
+    "Var. Imp. Metric: ", object$varimp, "\n",
     "Model class: ", object$class, "\n",
     "Dep. Variable: ", object$depvar_name, "\n",
     "Goodness of fit: ", object$gof, "\n",
