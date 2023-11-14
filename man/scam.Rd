@@ -5,7 +5,7 @@
 \alias{scam}
 \title{Supported Classes and Metrics (SCAM)}
 \format{
-An object of class \code{data.frame} with 32 rows and 4 columns.
+An object of class \code{data.frame} with 24 rows and 4 columns.
 }
 \usage{
 scam
