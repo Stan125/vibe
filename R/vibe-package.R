@@ -1,4 +1,5 @@
 #' @keywords internal
+#' @aliases testduplicate-package
 "_PACKAGE"
 
 #' vibe: Variable Importance BEyond linear models
