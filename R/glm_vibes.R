@@ -18,7 +18,7 @@ vibe.glm <- function(object,
                      progress = TRUE,
                      ...) {
   # Defensive Programming - is everything supplied the way it should be?
-  error_handling(
+  args_supported(
     object = object,
     varimp = varimp,
     gof = gof,
@@ -35,9 +35,7 @@ vibe.glm <- function(object,
   fam <- family(object)
 
   # Model Class - MC with added EE since it sounds cool
-  mcee <- levels(scam$supported_classes)[
-    levels(scam$supported_classes) %in% class(object)
-    ]
+  mcee <- class_finder(object)
 
   if (varimp == "hp") {
     ## Obtain model ids

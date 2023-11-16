@@ -21,10 +21,10 @@
 #' @examples
 #' library("mgcv")
 #' gam_ocat <- gam(
-#' satisfaction ~ admin + hygiene + time_appointment +
-#'   quality_dr + diagnosis_exactness + equipment_modern +
-#'   friendly_workers + parking_playingrooms_cafes,
-#' data = vibe::sat, family = ocat(R = 3)
+#'   satisfaction ~ admin + hygiene + time_appointment +
+#'     quality_dr + diagnosis_exactness + equipment_modern +
+#'     friendly_workers + parking_playingrooms_cafes,
+#'   data = vibe::sat, family = ocat(R = 3)
 #' )
 #' hp_gam <- vibe(gam_ocat, varimp = "hp", gof = "R2e", progress = FALSE)
 #' rw_gam <- vibe(gam_ocat, varimp = "relweights", gof = "R2e")
@@ -37,7 +37,7 @@ vibe.gam <- function(object,
                      progress = TRUE,
                      ...) {
   # Defensive Programming - is everything supplied the way it should be?
-  error_handling(
+  args_supported(
     object = object,
     varimp = varimp,
     gof = gof,
@@ -55,8 +55,8 @@ vibe.gam <- function(object,
 
   # Model Class - MC with added EE since it sounds cool
   mcee <- levels(scam$supported_classes)[
-      levels(scam$supported_classes) %in% class(object)
-    ]
+    levels(scam$supported_classes) %in% class(object)
+  ]
   if (any(mcee == "gam")) {
     mcee <- "gam"
   }

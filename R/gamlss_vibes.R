@@ -17,7 +17,7 @@ vibe.gamlss <- function(object,
                         progress = TRUE,
                         ...) {
   # Defensive Programming - is everything supplied the way it should be?
-  error_handling(
+  args_supported(
     object = object,
     varimp = varimp,
     gof = gof,

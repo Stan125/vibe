@@ -1,7 +1,8 @@
-#' @title Obtain goodness-of-fit figure from regression object
-#' @description blabla
-#'
-#' @param object Regression object. One of \code{vibe:::supported_classes}.
+#' @title Obtain goodness-of-fit figure from regression model object
+#' @description This extracts supported goodness-of-fit metrics from supported
+#'   model classes.
+#' @param object Regression object. One of the supported classes documented in
+#'   [scam].
 #' @param ... Additional arguments
 #' @export
 obtain_gof <- function(object, ...) {
@@ -10,11 +11,9 @@ obtain_gof <- function(object, ...) {
 
 #' @importFrom stats logLik
 #' @export
-
 obtain_gof.default <- function(object, gof = "R2e", m0 = NULL, ...) {
-  if (!is_any_multiple_classes(object, c("glm", "gam", "gamlss"))) {
-    stop("Doesn't have the correct classes")
-  }
+  args_supported(object = object, gof = gof)
+
   if (gof == "R2e" && is.null(m0)) {
     stop("Empty model needs to be provided")
   }
@@ -25,4 +24,8 @@ obtain_gof.default <- function(object, gof = "R2e", m0 = NULL, ...) {
     n <- length(object$y)
     return(1 - (lm / l0)^(-(2 / n) * l0))
   }
+}
+
+obtain_gof_r2e <- function(object, m0 = NULL) {
+
 }

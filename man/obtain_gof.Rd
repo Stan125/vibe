@@ -2,15 +2,17 @@
 % Please edit documentation in R/gof.R
 \name{obtain_gof}
 \alias{obtain_gof}
-\title{Obtain goodness-of-fit figure from regression object}
+\title{Obtain goodness-of-fit figure from regression model object}
 \usage{
 obtain_gof(object, ...)
 }
 \arguments{
-\item{object}{Regression object. One of \code{vibe:::supported_classes}.}
+\item{object}{Regression object. One of the supported classes documented in
+\link{scam}.}
 
 \item{...}{Additional arguments}
 }
 \description{
-blabla
+This extracts supported goodness-of-fit metrics from supported
+model classes.
 }
