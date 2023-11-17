@@ -25,6 +25,10 @@ obtain_gof.default <- function(object, gof = "R2e", m0 = NULL, ...) {
   if (gof == "R2e") {
     return(obtain_gof_r2e(object, m0))
   }
+
+  if (gof == "R2Mac") {
+    return(obtain_gof_r2_mcfadden(object, m0))
+  }
 }
 
 
@@ -39,4 +43,16 @@ obtain_gof_r2e <- function(object, m0) {
   lm <- as.numeric(logLik(object))
   n <- length(object$y)
   return(1 - (lm / l0)^(-(2 / n) * l0))
+}
+
+#' @title Obtain goodness of fit figure for McFadden's Pseudo R2
+#'
+#' @inheritParams obtain_gof
+#'
+#' @keywords internal
+#' @references D. McFadden. Conditional logit analysis of qualitative choice behavior. In P. Zarembka, editor, Frontiers in Econometrics, chapter Four, pages 104–142. Academic Press, New York, 1974.
+obtain_gof_r2_mcfadden <- function(object, m0) {
+  l0 <- as.numeric(logLik(m0))
+  lm <- as.numeric(logLik(object))
+  return(1 - (lm / l0))
 }
