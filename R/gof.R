@@ -3,6 +3,7 @@
 #'   model classes.
 #' @param object Regression object. One of the supported classes documented in
 #'   [scam].
+#' @inheritDotParams obtain_gof.default
 #' @param ... Additional arguments
 #' @export
 obtain_gof <- function(object, ...) {
@@ -10,7 +11,10 @@ obtain_gof <- function(object, ...) {
 }
 
 #' @importFrom stats logLik
+#' @param m0 This is the "empty model", the model without any explanatory variables.
+#' @inheritParams vibe.gam
 #' @export
+#' @rdname obtain_gof
 obtain_gof.default <- function(object, gof = "R2e", m0 = NULL, ...) {
   args_supported(object = object, gof = gof)
 
@@ -19,13 +23,20 @@ obtain_gof.default <- function(object, gof = "R2e", m0 = NULL, ...) {
   }
 
   if (gof == "R2e") {
-    l0 <- as.numeric(logLik(m0))
-    lm <- as.numeric(logLik(object))
-    n <- length(object$y)
-    return(1 - (lm / l0)^(-(2 / n) * l0))
+    return(obtain_gof_r2e(object, m0))
   }
 }
 
-obtain_gof_r2e <- function(object, m0 = NULL) {
 
+#' @title Obtain goodness of fit figure for Estrella's Pseudo R2
+#'
+#' @inheritParams obtain_gof
+#'
+#' @keywords internal
+#' @references Arturo Estrella (1998) A New Measure of Fit for Equations With Dichotomous Dependent Variables, Journal of Business & Economic Statistics, 16:2, 198-205, DOI: 10.1080/07350015.1998.10524753
+obtain_gof_r2e <- function(object, m0) {
+  l0 <- as.numeric(logLik(m0))
+  lm <- as.numeric(logLik(object))
+  n <- length(object$y)
+  return(1 - (lm / l0)^(-(2 / n) * l0))
 }

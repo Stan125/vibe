@@ -31,10 +31,10 @@ it.
 \examples{
 library("mgcv")
 gam_ocat <- gam(
-satisfaction ~ admin + hygiene + time_appointment +
-  quality_dr + diagnosis_exactness + equipment_modern +
-  friendly_workers + parking_playingrooms_cafes,
-data = vibe::sat, family = ocat(R = 3)
+  satisfaction ~ admin + hygiene + time_appointment +
+    quality_dr + diagnosis_exactness + equipment_modern +
+    friendly_workers + parking_playingrooms_cafes,
+  data = vibe::sat, family = ocat(R = 3)
 )
 hp_gam <- vibe(gam_ocat, varimp = "hp", gof = "R2e", progress = FALSE)
 rw_gam <- vibe(gam_ocat, varimp = "relweights", gof = "R2e")

@@ -2,15 +2,27 @@
 % Please edit documentation in R/gof.R
 \name{obtain_gof}
 \alias{obtain_gof}
+\alias{obtain_gof.default}
 \title{Obtain goodness-of-fit figure from regression model object}
 \usage{
 obtain_gof(object, ...)
+
+\method{obtain_gof}{default}(object, gof = "R2e", m0 = NULL, ...)
 }
 \arguments{
 \item{object}{Regression object. One of the supported classes documented in
 \link{scam}.}
 
-\item{...}{Additional arguments}
+\item{...}{
+  Arguments passed on to \code{\link[=obtain_gof.default]{obtain_gof.default}}
+  \describe{
+    \item{\code{}}{}
+  }}
+
+\item{gof}{Goodness-of-fit metric, the changes of which shall be
+analysed}
+
+\item{m0}{This is the "empty model", the model without any explanatory variables.}
 }
 \description{
 This extracts supported goodness-of-fit metrics from supported
