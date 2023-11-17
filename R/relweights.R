@@ -43,7 +43,7 @@ rel_weights <- function(expl_df, depvar, fam, class, gof, param = "mu") {
     # Get S
     s <- sd(predict(mfull, type = "response"))
 
-    # Get gof (currently only R2e possible)
+    # Get gof
     m0 <- glm(depvar ~ 1, family = fam)
     gofmod <- obtain_gof(mfull, gof = gof, m0 = m0)
   }
@@ -56,7 +56,7 @@ rel_weights <- function(expl_df, depvar, fam, class, gof, param = "mu") {
     # Get S
     s <- sd(predict(mfull))
 
-    # Get gof (currently only R2e possible)
+    # Get gof
     m0 <- gam(depvar ~ 1, family = fam)
     gofmod <- obtain_gof(mfull, gof = gof, m0 = m0)
   }
@@ -85,7 +85,7 @@ rel_weights <- function(expl_df, depvar, fam, class, gof, param = "mu") {
       # Get S
       s <- sd(predict(mfull, what = "sigma"))
 
-      # Get gof (currently only R2e possible)
+      # Get gof
       m0 <- gamlss(depvar ~ 1, family = fam, trace = FALSE)
       gofmod <- obtain_gof(mfull, gof = gof, m0 = m0)
     }
