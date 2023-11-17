@@ -81,7 +81,7 @@ obj <- ls(envir = cur_env)
 plot_list <- lapply(obj[grep("rw|hp", obj)], FUN = function(x) {
   plot(get(x, envir = cur_env))
 })
-pdf("17_05_all_scatter.pdf",
+pdf("vibe_plots.pdf",
   onefile = TRUE,
   width = 12, height = 7
 )
@@ -89,4 +89,6 @@ for (i in seq_along(plot_list)) {
   print(plot_list[[i]])
 }
 dev.off()
-file.remove("17_05_all_scatter.pdf")
+
+# ---- Saving the models for re-use
+save(list = obj[grep("rw|hp", obj)], file = "models.Rdata")
