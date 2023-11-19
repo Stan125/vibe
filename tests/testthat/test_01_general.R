@@ -11,7 +11,7 @@ library("nlme")
 rm(list = ls())
 
 # Data
-india <- vibe::india
+india <- gamboostLSS::india
 sat <- subset(vibe::sat, select = -c(
   lab_services, time_waiting,
   checkup, waiting_room, hospital_room,
@@ -24,7 +24,7 @@ gasoline$yield <- gasoline$yield / 100
 # ---- Fitting the models ----
 
 # GLM
-glm_bin <- glm(formula = stunting ~ ., data = india)
+glm_bin <- glm(formula = stunting ~ cbmi + cage + mbmi + mage, data = india)
 
 # GAM
 gam_ocat <- gam(

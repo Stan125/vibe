@@ -5,4 +5,6 @@ library("mgcv")
 library("gamlss")
 
 # ---- Test goodness of fit
-load("models.RData")
+if (file.exists("models.RData")) {
+  load("models.RData")
+}
