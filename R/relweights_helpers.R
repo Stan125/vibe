@@ -7,11 +7,12 @@
 #' @export
 #'
 fit_null_model <- function(object, ...) {
-  UseMethod("fit_mean_model", x)
+  UseMethod("fit_mean_model", object)
 }
 
 #' @importFrom stats family glm
 #' @rdname fit_null_model
+#' @export
 fit_null_model.glm <- function(object, ...) {
   depvar <- object$y
   fam <- family(object)
@@ -22,6 +23,7 @@ fit_null_model.glm <- function(object, ...) {
 #' @importFrom stats family
 #' @importFrom mgcv gam
 #' @rdname fit_null_model
+#' @export
 fit_null_model.gam <- function(object, ...) {
   depvar <- object$y
   fam <- family(object)
@@ -32,6 +34,7 @@ fit_null_model.gam <- function(object, ...) {
 #' @importFrom stats family
 #' @importFrom gamlss gamlss
 #' @rdname fit_null_model
+#' @export
 fit_null_model.gamlss <- function(object, ...) {
   depvar <- object$y
   fam <- family(object)
