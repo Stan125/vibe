@@ -91,4 +91,4 @@ for (i in seq_along(plot_list)) {
 dev.off()
 
 # ---- Saving the models for re-use
-save(list = obj[grep("rw|hp", obj)], file = "models.Rdata")
+save(list = obj[grep("rw|hp", obj)], file = "inst/extdata/models.Rdata")
