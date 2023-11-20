@@ -20,7 +20,7 @@ Imports:
         rlang,
         Rcpp
 Description: Functions for calculating variable importance metrics for glm, gam and gamlss classes.
-License: GPL-3
+License: GPL (>= 3)
 Encoding: UTF-8
 URL: https://github.com/Stan125/vibe
 BugReports: https://github.com/Stan125/vibe/issues

@@ -7,3 +7,4 @@
 .lintr
 .pre-commit-config.yaml
 ^README\.Rmd$
+^LICENSE\.md$
