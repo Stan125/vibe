@@ -5,8 +5,8 @@ library("mgcv")
 library("gamlss")
 
 # ---- Load models
-if (file.exists("inst/extdata/models.Rdata")) {
-  load("inst/extdata/models.Rdata")
+if (file.exists("../temp_storage/models.RData")) {
+  load("../temp_storage/models.RData")
 }
 
 # ---- Fit Null models
