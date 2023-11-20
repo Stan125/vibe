@@ -103,11 +103,6 @@ vibe.gam <- function(object,
     # Return
     return(result)
   } else if (varimp == "relweights") {
-    # If anything different than r2e don't do it
-    if (gof != "R2e") {
-      stop("Currently only varimp 'R2e' implemented")
-    }
-
     # Relative Weights
     relweight_res <- rel_weights(
       expl_df = expl_df,

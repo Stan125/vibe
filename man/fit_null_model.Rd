@@ -5,7 +5,7 @@
 \alias{fit_null_model.glm}
 \alias{fit_null_model.gam}
 \alias{fit_null_model.gamlss}
-\title{Fit a null model (model without any explanatory variables)}
+\title{Null model fitter}
 \usage{
 fit_null_model(object, ...)
 
@@ -24,5 +24,5 @@ fit_null_model(object, ...)
 a fitted model object
 }
 \description{
-Fit a null model (model without any explanatory variables)
+Fits a null model (model without any explanatory variables).
 }
