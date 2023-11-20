@@ -31,6 +31,7 @@ SystemRequirements: C++
 Suggests: 
     testthat (>= 3.0.0),
     devtools (>= 2.3.2),
+    gamboostLSS,
     nlme,
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
