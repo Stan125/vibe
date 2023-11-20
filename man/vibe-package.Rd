@@ -4,7 +4,6 @@
 \name{vibe-package}
 \alias{vibe-package}
 \alias{_PACKAGE}
-\alias{testduplicate-package}
 \title{vibe: Variable Importance Beyond Linear Models}
 \description{
 Functions for calculating variable importance metrics for glm, gam and gamlss classes.

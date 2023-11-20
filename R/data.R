@@ -1,6 +1,3 @@
-#' @title Malnutrition in india
-"india"
-
 #' @title Customer Satisfaction in North Macedonia
 #' @source \url{https://www.kaggle.com/vdimitrievska/patient-satisfaction-dataset}
 "sat"

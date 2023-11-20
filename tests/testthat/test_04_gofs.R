@@ -5,7 +5,9 @@ library("mgcv")
 library("gamlss")
 
 # ---- Load models
-load("models.RData")
+if (file.exists("models.RData")) {
+  load("models.RData")
+}
 
 # ---- Fit Null models
 glm_bin_m0 <- fit_null_model(glm_bin)
