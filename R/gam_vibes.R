@@ -54,12 +54,7 @@ vibe.gam <- function(object,
   fam <- family(object)
 
   # Model Class - MC with added EE since it sounds cool
-  mcee <- levels(scam$supported_classes)[
-    levels(scam$supported_classes) %in% class(object)
-  ]
-  if (any(mcee == "gam")) {
-    mcee <- "gam"
-  }
+  mcee <- class_finder(object)
 
   if (varimp == "hp") {
     ## Obtain model ids
