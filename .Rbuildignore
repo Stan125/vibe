@@ -8,4 +8,4 @@
 .pre-commit-config.yaml
 ^README\.Rmd$
 ^LICENSE\.md$
-^\docs$
+^docs$
