@@ -14,6 +14,7 @@ obtain_gof <- function(object, ...) {
 #' @inheritParams vibe.gam
 #' @export
 #' @rdname obtain_gof
+#' @importFrom stats deviance logLik
 obtain_gof.default <- function(object, gof = "R2e", m0 = NULL, ...) {
   args_supported(object = object, gof = gof)
 
@@ -28,12 +29,17 @@ obtain_gof.default <- function(object, gof = "R2e", m0 = NULL, ...) {
   if (gof == "R2Mac") {
     return(obtain_gof_r2_mcfadden(object, m0))
   }
+
+  if (gof == "deviance") {
+    return(deviance(object))
+  }
 }
 
 #' @param m0 This is the "empty model", the model without any explanatory variables.
 #' @inheritParams vibe.gam
 #' @export
 #' @rdname obtain_gof
+#' @importFrom stats deviance logLik
 obtain_gof.lm <- function(object, gof = "R2e", m0 = NULL, ...) {
   args_supported(object = object, gof = gof)
 
