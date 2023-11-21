@@ -49,6 +49,10 @@ obtain_gof.lm <- function(object, gof = "R2e", m0 = NULL, ...) {
   if (gof == "R2Mac") {
     return(obtain_gof_r2_mcfadden(object, m0))
   }
+
+  if (gof == "LogLikelihood") {
+    return(logLik(object))
+  }
 }
 
 
