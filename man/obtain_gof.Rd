@@ -3,11 +3,14 @@
 \name{obtain_gof}
 \alias{obtain_gof}
 \alias{obtain_gof.default}
+\alias{obtain_gof.lm}
 \title{Obtain goodness-of-fit figure from regression model object}
 \usage{
 obtain_gof(object, ...)
 
 \method{obtain_gof}{default}(object, gof = "R2e", m0 = NULL, ...)
+
+\method{obtain_gof}{lm}(object, gof = "R2e", m0 = NULL, ...)
 }
 \arguments{
 \item{object}{Regression object. One of the supported classes documented in

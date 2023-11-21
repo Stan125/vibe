@@ -42,7 +42,8 @@ gamlss_beta_sig <- gamlss(yield ~ endpoint + ASTM,
 )
 
 # ---- Calculating variable importance - LM ----
-hp_lm <- vibe(iris_lm, varimp = "hp", gof = "R2e", progress = FALSE)
+hp_lm <- vibe(iris_lm, varimp = "hp", gof = "R2Mac", progress = FALSE)
+rw_lm <- vibe(iris_lm, varimp = "relweights", gof = "R2Mac", progress = FALSE)
 
 # ---- Calculating variable importance - GLM ----
 hp_glm <- vibe(glm_bin, varimp = "hp", gof = "R2e", progress = FALSE)

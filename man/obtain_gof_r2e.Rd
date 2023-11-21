@@ -4,7 +4,7 @@
 \alias{obtain_gof_r2e}
 \title{Obtain goodness of fit figure for Estrella's Pseudo R2}
 \usage{
-obtain_gof_r2e(object, m0)
+obtain_gof_r2e(object, m0, depvar)
 }
 \arguments{
 \item{object}{Regression object. One of the supported classes documented in
