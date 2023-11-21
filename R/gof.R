@@ -51,7 +51,11 @@ obtain_gof.lm <- function(object, gof = "R2e", m0 = NULL, ...) {
   }
 
   if (gof == "LogLikelihood") {
-    return(logLik(object))
+    return(as.numeric(logLik(object)))
+  }
+
+  if (gof == "deviance") {
+    return(deviance(object))
   }
 }
 
