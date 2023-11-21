@@ -57,6 +57,7 @@ obtain_gof.lm <- function(object, gof = "R2e", m0 = NULL, ...) {
 #' @inheritParams obtain_gof
 #'
 #' @keywords internal
+#' @importFrom stats logLik
 #' @references Arturo Estrella (1998) A New Measure of Fit for Equations With Dichotomous Dependent Variables, Journal of Business & Economic Statistics, 16:2, 198-205, DOI: 10.1080/07350015.1998.10524753
 obtain_gof_r2e <- function(object, m0, depvar) {
   l0 <- as.numeric(logLik(m0))
@@ -68,7 +69,7 @@ obtain_gof_r2e <- function(object, m0, depvar) {
 #' @title Obtain goodness of fit figure for McFadden's Pseudo R2
 #'
 #' @inheritParams obtain_gof
-#'
+#' @importFrom stats logLik
 #' @keywords internal
 #' @references D. McFadden. Conditional logit analysis of qualitative choice behavior. In P. Zarembka, editor, Frontiers in Econometrics, chapter Four, pages 104–142. Academic Press, New York, 1974.
 obtain_gof_r2_mcfadden <- function(object, m0) {
