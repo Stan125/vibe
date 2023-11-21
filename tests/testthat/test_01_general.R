@@ -7,9 +7,6 @@ library("mgcv")
 library("gamlss")
 library("nlme")
 
-# Remove everything
-rm(list = ls())
-
 # Data
 india <- gamboostLSS::india
 sat <- subset(vibe::sat, select = -c(
@@ -22,6 +19,9 @@ gasoline <- subset(Gasoline, select = -c(Sample))
 gasoline$yield <- gasoline$yield / 100
 
 # ---- Fitting the models ----
+
+# LM
+iris_lm <- lm(Sepal.Width ~ ., data = iris)
 
 # GLM
 glm_bin <- glm(formula = stunting ~ cbmi + cage + mbmi + mage, data = india)
@@ -40,6 +40,9 @@ gamlss_beta_sig <- gamlss(yield ~ endpoint + ASTM,
   sigma.formula = ~endpoint,
   data = gasoline, fam = BE(), trace = FALSE
 )
+
+# ---- Calculating variable importance - LM ----
+hp_lm <- vibe(iris_lm, varimp = "hp", gof = "R2e", progress = FALSE)
 
 # ---- Calculating variable importance - GLM ----
 hp_glm <- vibe(glm_bin, varimp = "hp", gof = "R2e", progress = FALSE)

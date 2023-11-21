@@ -2,7 +2,7 @@
 #'
 #' @keywords internal
 #' @importFrom fastDummies dummy_columns
-#' @importFrom stats aggregate glm coef sd predict
+#' @importFrom stats aggregate glm coef sd predict lm
 #' @importFrom mgcv gam
 #' @importFrom gamlss gamlss
 rel_weights <- function(expl_df, depvar, fam, class, gof, param = "mu") {
@@ -34,6 +34,19 @@ rel_weights <- function(expl_df, depvar, fam, class, gof, param = "mu") {
 
   # Get coefficients of x_mat/z_mat relation
   lambda <- solve(t(z_mat) %*% z_mat) %*% t(z_mat) %*% x_mat
+
+  if (class == "lm") {
+    # Get unstandardized coefficients
+    mfull <- lm(depvar ~ z_mat)
+    coefs <- coef(mfull)[2:(ncol(x_mat) + 1)]
+
+    # Get S
+    s <- sd(predict(mfull, type = "response"))
+
+    # Get gof
+    m0 <- lm(depvar ~ 1)
+    gofmod <- obtain_gof(mfull, gof = gof, m0 = m0)
+  }
 
   if (class == "glm") {
     # Get unstandardized coefficients

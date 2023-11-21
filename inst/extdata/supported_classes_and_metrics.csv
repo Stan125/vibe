@@ -1,9 +1,9 @@
 supported_classes,varimp_measure,gof_metric,implemented
-lm,hp,R2e,FALSE
+lm,hp,R2e,TRUE
 glm,hp,R2e,TRUE
 gam,hp,R2e,TRUE
 gamlss,hp,R2e,TRUE
-lm,relweights,R2e,FALSE
+lm,relweights,R2e,TRUE
 glm,relweights,R2e,TRUE
 gam,relweights,R2e,TRUE
 gamlss,relweights,R2e,TRUE
@@ -31,11 +31,11 @@ lm,relweights,log_lik,FALSE
 glm,relweights,log_lik,FALSE
 gam,relweights,log_lik,FALSE
 gamlss,relweights,log_lik,FALSE
-lm,hp,R2Mac,FALSE
+lm,hp,R2Mac,TRUE
 glm,hp,R2Mac,TRUE
 gam,hp,R2Mac,TRUE
 gamlss,hp,R2Mac,TRUE
-lm,relweights,R2Mac,FALSE
+lm,relweights,R2Mac,TRUE
 glm,relweights,R2Mac,TRUE
 gam,relweights,R2Mac,TRUE
 gamlss,relweights,R2Mac,TRUE
